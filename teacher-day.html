@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<!--
+  教师节彩蛋页 · 2026.9.10 · 信息与通信学院
+  想改文案：改下方 <div class="card"> 里的文字
+  想改署名：改“信息与通信学院全体学子 敬上”那一行
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#ffe9d6">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>教师节快乐 · 信息与通信学院</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
+html,body{width:100%;min-height:100vh;overflow-x:auto;overflow-y:auto}
+body{
+  font-family:"STKaiti","KaiTi","FangSong","Microsoft YaHei",sans-serif;
+  background:linear-gradient(160deg,#fffaf3,#ffe9d6 30%,#ffdcc8 60%,#fbd6e2 85%,#ffeef5);
+  background-size:200% 200%;
+  animation:bgShift 24s ease-in-out infinite;
+  display:flex;align-items:center;justify-content:center;
+  padding:20px 0;cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:manipulation;
+}
+@keyframes bgShift{0%,100%{background-position:0% 30%}50%{background-position:100% 70%}}
+
+/* 柔和光斑 */
+.blob{position:fixed;border-radius:50%;filter:blur(70px);z-index:0;pointer-events:none;opacity:.55}
+.blob.b1{width:46vmax;height:46vmax;left:-12vmax;top:-14vmax;background:#ffd9a8;animation:float1 16s ease-in-out infinite}
+.blob.b2{width:38vmax;height:38vmax;right:-10vmax;top:22vmax;background:#ffb8cd;animation:float2 20s ease-in-out infinite}
+.blob.b3{width:34vmax;height:34vmax;left:30vmax;bottom:-16vmax;background:#bfe0ff;opacity:.35;animation:float3 18s ease-in-out infinite}
+@keyframes float1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(4vmax,3vmax) scale(1.12)}}
+@keyframes float2{0%,100%{transform:translate(0,0) scale(1.05)}50%{transform:translate(-4vmax,-3vmax) scale(.95)}}
+@keyframes float3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(3vmax,-4vmax) scale(1.1)}}
+
+/* 背景闪烁星星 */
+.star{position:fixed;border-radius:50%;background:#fff;box-shadow:0 0 6px rgba(255,255,255,.9),0 0 12px rgba(255,215,150,.8);animation:twinkle ease-in-out infinite;pointer-events:none;z-index:1}
+@keyframes twinkle{0%,100%{opacity:.15;transform:scale(.8)}50%{opacity:.95;transform:scale(1.15)}}
+
+/* 满屏飘落：祝福字 + 星星 */
+.float-word{position:fixed;top:-12vh;z-index:2;pointer-events:none;opacity:0;will-change:transform;animation:fall linear forwards;text-shadow:0 2px 8px rgba(180,120,60,.25)}
+@keyframes fall{
+  0%{transform:translate(0,0) rotate(0deg);opacity:0}
+  8%{opacity:.85}
+  50%{transform:translate(26px,55vh) rotate(160deg)}
+  85%{opacity:.5}
+  100%{transform:translate(-16px,115vh) rotate(320deg);opacity:0}
+}
+
+/* 主卡片 */
+.card{
+  position:relative;z-index:5;max-width:min(660px,90vw);
+  padding:clamp(30px,5.5vw,54px) clamp(26px,6vw,62px) clamp(34px,6vw,58px);
+  text-align:center;
+  border-radius:30px;
+  background:linear-gradient(145deg,rgba(255,255,255,.93),rgba(255,248,240,.86));
+  -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 30px 80px rgba(190,110,50,.28),0 6px 24px rgba(190,110,50,.12),inset 0 1px 0 #fff;
+  animation:cardIn 1s cubic-bezier(.22,1.2,.36,1) both,cardFloat 5s 1.4s ease-in-out infinite;
+}
+@keyframes cardFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+
+/* 点击涟漪圆环 */
+.ring{position:fixed;border-radius:50%;border:2px solid rgba(240,163,74,.75);pointer-events:none;z-index:9;transform:translate(-50%,-50%);animation:ringOut .85s ease-out forwards}
+@keyframes ringOut{from{width:0;height:0;opacity:.95;border-width:3px}to{width:170px;height:170px;opacity:0;border-width:1px}}
+/* 金色描边光环 */
+.card::before{
+  content:"";position:absolute;inset:-2px;border-radius:32px;z-index:-1;
+  background:linear-gradient(140deg,rgba(240,163,74,.55),rgba(255,255,255,0) 30%,rgba(224,104,92,.4) 60%,rgba(240,163,74,.5));
+}
+@keyframes cardIn{from{opacity:0;transform:translateY(28px) scale(.93)}to{opacity:1;transform:none}}
+
+/* 角落装饰 */
+.corner{position:absolute;font-size:clamp(22px,4vw,34px);opacity:.5;pointer-events:none}
+.corner.c1{top:14px;left:18px;transform:rotate(-14deg)}
+.corner.c2{bottom:12px;right:16px;transform:rotate(10deg)}
+
+.badge{
+  display:inline-block;font-size:18px;font-weight:700;letter-spacing:4px;color:#a5713a;
+  border:1px solid #e7cba0;border-radius:999px;padding:8px 22px;
+  background:linear-gradient(180deg,#fffdf7,#fdf3e0);
+  box-shadow:0 3px 10px rgba(190,120,60,.14);
+  margin-bottom:16px;animation:fadeUp .8s .15s both;
+}
+
+/* 信号波纹 + 老师头像（呼应信息与通信学院） */
+.signal{position:relative;width:86px;height:86px;margin:0 auto 12px}
+.signal i{position:absolute;inset:0;border:2px solid rgba(240,163,74,.55);border-radius:50%;animation:wave 2.6s ease-out infinite}
+.signal i:nth-child(2){animation-delay:.7s}
+.signal i:nth-child(3){animation-delay:1.4s}
+@keyframes wave{0%{transform:scale(.35);opacity:1}100%{transform:scale(1.55);opacity:0}}
+.emoji{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:clamp(42px,7vw,56px);line-height:1;
+  animation:bounce 2.6s ease-in-out infinite;
+  filter:drop-shadow(0 6px 12px rgba(240,150,70,.35));
+}
+.orbit{position:absolute;inset:-8px;pointer-events:none;animation:spin 7s linear infinite}
+.orbit i{position:absolute;top:-4px;left:50%;font-style:normal;font-size:15px}
+.orbit i:nth-child(2){top:auto;bottom:-4px;animation:spin 7s linear infinite reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* 点头像冒出的祝福气泡 */
+.bless{position:absolute;left:50%;top:-14px;transform:translateX(-50%);white-space:nowrap;
+  font-size:15px;color:#d94f6b;background:rgba(255,255,255,.94);
+  padding:7px 16px;border-radius:999px;
+  box-shadow:0 6px 18px rgba(217,79,107,.28);
+  animation:blessPop 2.4s ease forwards;z-index:6;pointer-events:none}
+@keyframes blessPop{
+  0%{opacity:0;transform:translateX(-50%) translateY(10px) scale(.6)}
+  15%{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}
+  80%{opacity:1}
+  100%{opacity:0;transform:translateX(-50%) translateY(-16px)}}
+.signal{cursor:pointer}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+h1{
+  font-size:clamp(26px,6vw,50px);font-weight:700;letter-spacing:2px;
+  white-space:nowrap;text-align:center;
+  color:#b5651d;
+  margin-bottom:12px;animation:fadeUp .8s .3s both;
+  text-shadow:0 6px 22px rgba(224,139,63,.18);
+}
+h1 span{display:inline-block;animation:charUp .6s cubic-bezier(.22,1.3,.36,1) both}
+@keyframes charUp{0%{opacity:0;transform:translateY(18px) scale(.7)}100%{opacity:1;transform:none}}
+.divider{width:56px;height:2px;margin:0 auto 12px;border-radius:2px;background:linear-gradient(90deg,transparent,#e2a14e,transparent);animation:fadeUp .8s .42s both}
+.sub{font-size:clamp(20px,4vw,28px);color:#7a5430;font-weight:600;letter-spacing:4px;margin-bottom:16px;animation:fadeUp .8s .48s both}
+.rotator{font-size:16px;color:#b5742d;letter-spacing:3px;min-height:24px;margin:0 0 22px;transition:opacity .35s ease;animation:fadeUp .8s .55s both}
+.date{font-size:14px;font-weight:600;color:#a89070;letter-spacing:3px;margin-top:96px;margin-bottom:2px;text-align:right;animation:fadeUp .8s .6s both}
+
+.btn{
+  position:relative;overflow:hidden;font-family:inherit;font-size:16px;letter-spacing:2px;color:#fff;
+  background:linear-gradient(135deg,#f0a34a,#e0685c);
+  border:none;border-radius:999px;padding:13px 34px;cursor:pointer;
+  box-shadow:0 10px 26px rgba(224,104,92,.42);
+  transition:transform .2s,box-shadow .2s;animation:fadeUp .8s .64s both;
+}
+.btn:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 14px 32px rgba(224,104,92,.52)}
+.btn:active{transform:scale(.97)}
+.btn::after{content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);transform:skewX(-20deg);animation:shine 3.2s ease-in-out infinite}
+@keyframes shine{0%,60%{left:-70%}100%{left:130%}}
+
+.sign{margin-top:2px;font-size:15px;font-weight:600;color:#8a6a4a;letter-spacing:2px;text-align:right;animation:fadeUp .8s .72s both}
+.sign b{color:#b5742d;font-weight:600}
+.hint{margin-top:9px;font-size:12px;color:#c9b090;letter-spacing:1px;animation:fadeUp .8s .8s both}
+
+/* ===== 互动模块 ===== */
+.idiv{border:none;border-top:1.5px dashed rgba(181,101,29,.25);margin:26px 0 16px}
+.isec{text-align:center}
+.isec .lbl{font-size:14px;color:#b5651d;opacity:.85;margin-bottom:10px;display:block}
+.frow{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px}
+.inp{padding:10px 18px;border-radius:50px;border:1px solid #f0a34a;outline:none;font-size:14px;
+  background:rgba(255,255,255,.75);flex:1 1 150px;min-width:130px;color:#3d2b1a;font-family:inherit}
+.inp::placeholder{color:#b5651d;opacity:.55}
+.inp:focus{border-color:#b5651d;box-shadow:0 0 0 3px rgba(181,101,29,.15)}
+.bgold{padding:10px 24px;border-radius:50px;border:none;background:linear-gradient(135deg,#f0a34a,#b5651d);
+  color:#fff;font-size:14px;font-weight:bold;cursor:pointer;box-shadow:0 4px 16px rgba(181,101,29,.25);
+  white-space:nowrap;font-family:inherit}
+.bgold:active{transform:scale(.94)}
+.bgrowse{padding:10px 24px;border-radius:50px;border:none;background:linear-gradient(135deg,#e0685c,#c0392b);
+  color:#fff;font-size:14px;font-weight:bold;cursor:pointer;box-shadow:0 4px 16px rgba(192,57,43,.25);
+  white-space:nowrap;font-family:inherit}
+.bgrowse:active{transform:scale(.94)}
+.tlist{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:10px;min-height:32px}
+.tagitem{background:rgba(255,215,0,.16);padding:4px 14px;border-radius:30px;font-size:13px;
+  border:1px solid #f0a34a;color:#7a3e1a;animation:popIn .3s ease}
+@keyframes popIn{0%{transform:scale(.5);opacity:0}80%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+.smsg{margin-top:8px;font-size:14px;color:#b5651d;min-height:22px;font-weight:bold}
+.awardbox{margin-top:10px;font-size:18px;font-weight:bold;color:#c0392b;min-height:32px}
+.abtn{padding:8px 16px;border-radius:50px;border:1px solid rgba(181,101,29,.3);background:rgba(255,255,255,.55);
+  color:#7a3e1a;font-size:14px;cursor:pointer;font-family:inherit}
+.abtn:active{transform:scale(.92);background:rgba(181,101,29,.15)}
+.barbox{margin-top:10px;height:38px;overflow:hidden;background:rgba(255,215,0,.07);border-radius:60px;
+  padding:0 16px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,215,0,.18)}
+.bartext{font-size:15px;color:#b5651d;white-space:nowrap;font-weight:bold}
+.bartext.anim{animation:marq 9s linear infinite}
+@keyframes marq{0%{transform:translateX(100%);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateX(-100%);opacity:0}}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* 上升爱心 */
+.rise{position:fixed;bottom:-8vh;z-index:3;pointer-events:none;opacity:0;animation:rise ease-out forwards}
+@keyframes rise{0%{transform:translateY(0) scale(.6) rotate(-8deg);opacity:0}15%{opacity:.95}100%{transform:translateY(-120vh) scale(1.15) rotate(10deg);opacity:0}}
+
+#fx{position:fixed;inset:0;z-index:4;pointer-events:none}
+</style>
+</head>
+<body>
+
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+<div class="blob b3"></div>
+
+<div class="card">
+  <span class="corner c2">🌻</span>
+
+  <div class="badge">第 42 个 教 师 节</div>
+
+  <div class="signal">
+    <i></i><i></i><i></i>
+    <div class="orbit"><i>✨</i><i>💫</i></div>
+    <div class="emoji" id="face">👩‍🏫</div>
+  </div>
+
+  <h1>老师，节日快乐！</h1>
+  <div class="divider"></div>
+  <p class="sub">提灯引路 · 育梦成光</p>
+  <p class="rotator">感谢恩师！</p>
+
+  <button class="btn" id="btn">老师，点一下屏幕，有惊喜</button>
+
+  <p class="date">2026 年 9 月 10 日</p>
+  <p class="sign">—— <b>信息与通信学院</b>全体学子 敬上</p>
+</div>
+
+<audio id="bgm" loop preload="auto" src="https://teacher-day-2026-1482870451.cos-website.ap-guangzhou.myqcloud.com/bgm.mp3"></audio>
+<canvas id="fx"></canvas>
+
+<script>
+// ===== 本地存储（签到/颁奖/留言） =====
+var sb=null;
+
+// ========== 标题逐字蹦出 ==========
+(function(){
+  var h1=document.querySelector('h1');
+  var chars=h1.textContent.split('');
+  h1.innerHTML=chars.map(function(c,i){
+    return '<span style="animation-delay:'+(0.3+i*0.08)+'s">'+c+'</span>';
+  }).join('');
+})();
+
+// ========== 轮播祝福句 ==========
+var quotes=['感谢恩师！','桃李满天下！','春晖遍四方！','师恩永记心间！','祝您天天开心！'];
+var qi=0,rot=document.querySelector('.rotator');
+if(rot){
+  setInterval(function(){
+    qi=(qi+1)%quotes.length;
+    rot.style.opacity=0;
+    setTimeout(function(){rot.textContent=quotes[qi];rot.style.opacity=1;},350);
+  },2600);
+}
+
+// ========== 满屏飘落：祝福字 + 星星 ==========
+var words=['老','师','节','日','快','乐','🌸','✨','🌟','💫','🍀','❤️','🎉','📡'];
+var colors=['#a86a24','#e08b3f','#d94f6b','#7aa6c9','#9b7bc9'];
+function spawnFall(){
+  var el=document.createElement('div');
+  el.className='float-word';
+  el.textContent=words[Math.floor(Math.random()*words.length)];
+  el.style.left=(Math.random()*96+2)+'vw';
+  el.style.fontSize=(16+Math.random()*30)+'px';
+  el.style.color=colors[Math.floor(Math.random()*colors.length)];
+  el.style.animationDuration=(10+Math.random()*9)+'s';
+  document.body.appendChild(el);
+  setTimeout(function(){el.remove()},22000);
+}
+setInterval(spawnFall,400);
+for(var i=0;i<12;i++)setTimeout(spawnFall,i*650); // 开局先铺满一轮
+
+// ========== 背景闪烁星星 ==========
+for(var i=0;i<46;i++){
+  var s=document.createElement('div');
+  s.className='star';
+  var sz=Math.random()*4+2;
+  s.style.width=s.style.height=sz+'px';
+  s.style.left=(Math.random()*100)+'vw';
+  s.style.top=(Math.random()*100)+'vh';
+  s.style.animationDuration=(1.8+Math.random()*3)+'s';
+  s.style.animationDelay=(Math.random()*3)+'s';
+  document.body.appendChild(s);
+}
+
+// ========== 烟花 / 粒子画布 ==========
+var canvas=document.getElementById('fx'),ctx=canvas.getContext('2d');
+var W,H,parts=[];
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+
+var palette=['#ff6b6b','#ffa94d','#ffd43b','#ff922b','#f783ac','#e8590c','#ffd8a8','#fa5252'];
+
+function burst(x,y,n,power){
+  for(var i=0;i<n;i++){
+    var a=Math.random()*Math.PI*2;
+    var v=(Math.random()*0.5+0.25)*power;
+    parts.push({
+      x:x,y:y,
+      vx:Math.cos(a)*v,
+      vy:Math.sin(a)*v-(Math.random()*0.35),
+      r:Math.random()*3+1.5,
+      c:palette[Math.floor(Math.random()*palette.length)],
+      life:1,
+      decay:Math.random()*0.012+0.006,
+      g:0.11
+    });
+  }
+}
+function tick(){
+  ctx.clearRect(0,0,W,H);
+  for(var i=parts.length-1;i>=0;i--){
+    var p=parts[i];
+    p.vy+=p.g;p.x+=p.vx;p.y+=p.vy;
+    p.vx*=.985;p.vy*=.985;
+    p.life-=p.decay;
+    if(p.life<=0){parts.splice(i,1);continue}
+    ctx.globalAlpha=Math.max(p.life,0);
+    ctx.fillStyle=p.c;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
+  }
+  ctx.globalAlpha=1;
+  requestAnimationFrame(tick);
+}
+tick();
+
+// ========== 上升爱心 ==========
+var riseEmojis=['❤️','🌸','💛','🌷','💖'];
+function spawnRise(){
+  var el=document.createElement('div');
+  el.className='rise';
+  el.textContent=riseEmojis[Math.floor(Math.random()*riseEmojis.length)];
+  el.style.left=(Math.random()*90+5)+'vw';
+  el.style.fontSize=(18+Math.random()*22)+'px';
+  el.style.animationDuration=(2.6+Math.random()*1.6)+'s';
+  document.body.appendChild(el);
+  setTimeout(function(){el.remove()},5000);
+}
+
+// 背景音乐：打开即尝试播放，手指碰到屏幕立即兜底播放
+var bgmPlayed=false;
+var bgm=document.getElementById('bgm');
+function tryPlayBgm(){
+  if(bgmPlayed||!bgm)return;
+  var p=bgm.play();
+  if(p&&p.then){p.then(function(){bgmPlayed=true;}).catch(function(){});}
+  else{bgmPlayed=true;}
+}
+tryPlayBgm();
+document.addEventListener('touchstart',tryPlayBgm,{passive:true});
+if(window.WeixinJSBridge){tryPlayBgm();}
+document.addEventListener('WeixinJSBridgeReady',tryPlayBgm);
+document.addEventListener('click',function(e){
+  burst(e.clientX,e.clientY,36,1);
+  if(Math.random()<.5)spawnRise();
+  var r=document.createElement('div');
+  r.className='ring';r.style.left=e.clientX+'px';r.style.top=e.clientY+'px';
+  document.body.appendChild(r);setTimeout(function(){r.remove()},900);
+  tryPlayBgm();
+});
+
+// 按钮：烟花秀
+document.getElementById('btn').addEventListener('click',function(e){
+  e.stopPropagation();
+  tryPlayBgm();
+  for(var i=0;i<4;i++){
+    setTimeout(function(){
+      burst(W/2+(Math.random()-.5)*W*.6,H*.25+Math.random()*H*.45,80,1.7);
+      for(var j=0;j<4;j++)spawnRise();
+    },i*260);
+  }
+});
+
+// ========== 互动：点头像冒祝福 + 长按祝福雨 ==========
+var blessings=['老师您辛苦了！','桃李满天下！','春晖遍四方！','感谢恩师！','祝您天天开心！'];
+document.getElementById('face').addEventListener('click',function(e){
+  e.stopPropagation();
+  tryPlayBgm();
+  var card=document.querySelector('.card');
+  var old=card.querySelector('.bless');if(old)old.remove();
+  var b=document.createElement('div');
+  b.className='bless';
+  b.textContent=blessings[Math.floor(Math.random()*blessings.length)];
+  card.appendChild(b);
+  // 喷玫瑰色粒子
+  var cx=e.clientX||W/2, cy=e.clientY||H/2;
+  for(var i=0;i<34;i++){
+    var a=Math.random()*Math.PI*2,v=Math.random()*.55+.2;
+    parts.push({x:cx,y:cy,vx:Math.cos(a)*v,vy:Math.sin(a)*v-(Math.random()*.3),
+      r:Math.random()*3+1.5,c:['#ff6b9d','#f783ac','#ffd43b','#ff8fa3'][i%4],
+      life:1,decay:Math.random()*.012+.006,g:.11});
+  }
+  for(var k=0;k<6;k++)spawnRise();
+  setTimeout(function(){b.remove()},2400);
+});
+// 长按屏幕涌祝福雨
+var pressTimer=null;
+document.addEventListener('touchstart',function(){
+  clearTimeout(pressTimer);
+  pressTimer=setTimeout(function(){
+    for(var i=0;i<12;i++)spawnFall();
+  },650);
+});
+document.addEventListener('touchend',function(){clearTimeout(pressTimer)});
+document.addEventListener('touchmove',function(){clearTimeout(pressTimer)});
+</script>
+<audio id="bgm" loop preload="auto" src="bgm.mp3"></audio>
+</body>
+</html>
