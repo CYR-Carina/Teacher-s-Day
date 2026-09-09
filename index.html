@@ -212,11 +212,9 @@ h1 span{display:inline-block;animation:charUp .6s cubic-bezier(.22,1.3,.36,1) bo
 
   <button class="btn" id="btn">老师，点一下屏幕，有惊喜</button>
 
-  <p class="date">2026 年 9 月 10 日</p>
   <p class="sign">—— <b>信息与通信学院</b>全体学子 敬上</p>
 </div>
 
-<audio id="bgm" loop preload="auto" src="https://teacher-day-2026-1482870451.cos-website.ap-guangzhou.myqcloud.com/bgm.mp3"></audio>
 <canvas id="fx"></canvas>
 
 <script>
@@ -257,8 +255,13 @@ function spawnFall(){
   document.body.appendChild(el);
   setTimeout(function(){el.remove()},22000);
 }
-setInterval(spawnFall,400);
-for(var i=0;i<12;i++)setTimeout(spawnFall,i*650); // 开局先铺满一轮
+// 飘落改为点击后才开始
+var fallStarted=false;
+function startFall(){
+  if(fallStarted)return;
+  fallStarted=true;
+  setInterval(spawnFall,400);
+}
 
 // ========== 背景闪烁星星 ==========
 for(var i=0;i<46;i++){
@@ -330,6 +333,7 @@ function spawnRise(){
 // （已删除背景音乐）
 
 document.addEventListener('click',function(e){
+  startFall();
   burst(e.clientX,e.clientY,36,1);
   if(Math.random()<.5)spawnRise();
   var r=document.createElement('div');
