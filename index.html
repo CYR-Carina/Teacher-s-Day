@@ -245,10 +245,21 @@ function spawnRise(){
   setTimeout(function(){el.remove()},5000);
 }
 
-// 点击任意位置：小惊喜
+// 背景音乐：打开即尝试播放，手指碰到屏幕立即兜底播放
+var bgmPlayed=false;
+var bgm=document.getElementById('bgm');
+function tryPlayBgm(){
+  if(bgmPlayed||!bgm)return;
+  var p=bgm.play();
+  if(p&&p.then){p.then(function(){bgmPlayed=true;}).catch(function(){});}
+  else{bgmPlayed=true;}
+}
+tryPlayBgm();
+document.addEventListener('touchstart',tryPlayBgm,{passive:true});
 document.addEventListener('click',function(e){
   burst(e.clientX,e.clientY,36,1);
   if(Math.random()<.5)spawnRise();
+  tryPlayBgm();
 });
 
 // 按钮：烟花秀
@@ -262,5 +273,6 @@ document.getElementById('btn').addEventListener('click',function(e){
   }
 });
 </script>
+<audio id="bgm" loop preload="auto" src="https://teacher-day-2026-1482870451.cos-website.ap-guangzhou.myqcloud.com/bgm.mp3"></audio>
 </body>
 </html>
