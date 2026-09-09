@@ -184,7 +184,7 @@ h1 span{display:inline-block;animation:charUp .6s cubic-bezier(.22,1.3,.36,1) bo
 
 #fx{position:fixed;inset:0;z-index:4;pointer-events:none}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@cloudbase/js-sdk@2"></script>
 </head>
 <body>
 
@@ -251,14 +251,15 @@ h1 span{display:inline-block;animation:charUp .6s cubic-bezier(.22,1.3,.36,1) bo
 <canvas id="fx"></canvas>
 
 <script>
-// ===== Supabase 云端 =====
+// ===== 腾讯云 CloudBase =====
 var sb=null;
 try{
-  sb=window.supabase.createClient(
-    'https://wwkahjgatheebewdvygz.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind3a2FoamdhdGhlZWJld2R2eWd6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg5MzA3NjAsImV4cCI6MjEwNDUwNjc2MH0.BE018lspGcw18GfNXBAh6CGwRVIa0kO9TCbD5BgMnW4'
-  );
-}catch(e){}
+  var app = cloudbase.init({
+    env: "teacher-day-d5gpymqcac5006df8",
+    accessKey: "eyJhbGciOiJSUzI1NiIsImtpZCI6IjE0MjEyOGZlLTY4M2EtNDkyNi05ZjBlLWE0MGZiZjQxY2UxNiJ9.eyJpc3MiOiJodHRwczovL3RlYWNoZXItZGF5LWQ1Z3B5bXFjYWM1MDA2ZGY4LmFwLXNoYW5naGFpLnRjYi1hcGkudGVuY2VudGNsb3VkYXBpLmNvbSIsInN1YiI6ImFub24iLCJhdWQiOiJ0ZWFjaGVyLWRheS1kNWdweW1xY2FjNTAwNmRmOCIsImV4cCI6NDA5MjYyNjg5NSwiaWF0IjoxNzg4OTQzNjk1LCJub25jZSI6Im04QTl2U1hXUy15ZDZrS01BNUFMLUEiLCJhdF9oYXNoIjoibThBOXZTWFdTLXlkNmtLTUE1QUwtQSIsIm5hbWUiOiJBbm9ueW1vdXMiLCJzY29wZSI6ImFub255bW91cyIsInByb2plY3RfaWQiOiJ0ZWFjaGVyLWRheS1kNWdweW1xY2FjNTAwNmRmOCIsIm1ldGEiOnsicGxhdGZvcm0iOiJQdWJsaXNoYWJsZUtleSJ9LCJyb2xlIjoiYW5vbiIsImlzX2Fub255bW91cyI6dHJ1ZSwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiYW5vbnltb3VzIiwicHJvdmlkZXJzIjpbImFub255bW91cyJdfSwidXNlcl9tZXRhZGF0YSI6eyJuYW1lIjoiQW5vbnltb3VzIn0sInVzZXJfdHlwZSI6IiIsImNsaWVudF90eXBlIjoiY2xpZW50X3VzZXIiLCJpc19zeXN0ZW1fYWRtaW4iOmZhbHNlfQ.FdXVJR6MEW0G7Z5DWcIe8z85S7ichMkDGyxmNPFfa6gXD28hHlZQn-6mDDhvVdifovK54F4jy7mlNDspKZYXeFKlAQ877WBY77iosjbNBJyoBsgACr4b_Clc8_tlJo4MRw4GY7MOoRU9q4wMT5Ce2uVw68JFsoOuHHr0nZmLA6E4uA4Vu80OplbIjtFzLy93jpkVeNtxoyLz-vYE196kHGNlLv9Nvpl0gHz7GLGGquSS9t7T-mWDkvOzXxTSSlmKAQMiqUtIxoELJYzpcAqAPSK4Fl1IEOWnT5u891-sc-CIFNGZIrLobnHU06Q5qRoTaN57-NtO_bI8h2yKd6YViQ"
+  });
+  sb = app.rdb ? app.rdb() : app.database();
+}catch(e){ console.error('cloudbase init fail', e); }
 // ========== 标题逐字蹦出 ==========
 (function(){
   var h1=document.querySelector('h1');
