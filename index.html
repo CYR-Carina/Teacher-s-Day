@@ -330,12 +330,19 @@ function spawnRise(){
   setTimeout(function(){el.remove()},5000);
 }
 
-// （已删除背景音乐）
+// 上升爱心改为点击后持续发
+var riseStarted=false;
+function startRiseLoop(){
+  if(riseStarted)return;
+  riseStarted=true;
+  setInterval(spawnRise,500);
+}
+
 
 document.addEventListener('click',function(e){
   startFall();
+  startRiseLoop();
   burst(e.clientX,e.clientY,36,1);
-  if(Math.random()<.5)spawnRise();
   var r=document.createElement('div');
   r.className='ring';r.style.left=e.clientX+'px';r.style.top=e.clientY+'px';
   document.body.appendChild(r);setTimeout(function(){r.remove()},900);
