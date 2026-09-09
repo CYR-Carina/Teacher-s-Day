@@ -12,14 +12,14 @@
 <title>教师节快乐 · 信息与通信学院</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
-html,body{width:100%;height:100%;overflow:hidden}
+html,body{width:100%;min-height:100%;overflow-x:auto;overflow-y:auto}
 body{
   font-family:"STKaiti","KaiTi","FangSong","Microsoft YaHei",sans-serif;
   background:linear-gradient(160deg,#fffaf3,#ffe9d6 30%,#ffdcc8 60%,#fbd6e2 85%,#ffeef5);
   background-size:200% 200%;
   animation:bgShift 24s ease-in-out infinite;
   display:flex;align-items:center;justify-content:center;
-  cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:manipulation;
+  padding:20px 0;cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:manipulation;
 }
 @keyframes bgShift{0%,100%{background-position:0% 30%}50%{background-position:100% 70%}}
 
@@ -144,6 +144,38 @@ h1 span{display:inline-block;animation:charUp .6s cubic-bezier(.22,1.3,.36,1) bo
 .sign b{color:#b5742d;font-weight:600}
 .hint{margin-top:9px;font-size:12px;color:#c9b090;letter-spacing:1px;animation:fadeUp .8s .8s both}
 
+/* ===== 互动模块 ===== */
+.idiv{border:none;border-top:1.5px dashed rgba(181,101,29,.25);margin:26px 0 16px}
+.isec{text-align:center}
+.isec .lbl{font-size:14px;color:#b5651d;opacity:.85;margin-bottom:10px;display:block}
+.frow{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px}
+.inp{padding:10px 18px;border-radius:50px;border:1px solid #f0a34a;outline:none;font-size:14px;
+  background:rgba(255,255,255,.75);flex:1 1 150px;min-width:130px;color:#3d2b1a;font-family:inherit}
+.inp::placeholder{color:#b5651d;opacity:.55}
+.inp:focus{border-color:#b5651d;box-shadow:0 0 0 3px rgba(181,101,29,.15)}
+.bgold{padding:10px 24px;border-radius:50px;border:none;background:linear-gradient(135deg,#f0a34a,#b5651d);
+  color:#fff;font-size:14px;font-weight:bold;cursor:pointer;box-shadow:0 4px 16px rgba(181,101,29,.25);
+  white-space:nowrap;font-family:inherit}
+.bgold:active{transform:scale(.94)}
+.bgrowse{padding:10px 24px;border-radius:50px;border:none;background:linear-gradient(135deg,#e0685c,#c0392b);
+  color:#fff;font-size:14px;font-weight:bold;cursor:pointer;box-shadow:0 4px 16px rgba(192,57,43,.25);
+  white-space:nowrap;font-family:inherit}
+.bgrowse:active{transform:scale(.94)}
+.tlist{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:10px;min-height:32px}
+.tagitem{background:rgba(255,215,0,.16);padding:4px 14px;border-radius:30px;font-size:13px;
+  border:1px solid #f0a34a;color:#7a3e1a;animation:popIn .3s ease}
+@keyframes popIn{0%{transform:scale(.5);opacity:0}80%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+.smsg{margin-top:8px;font-size:14px;color:#b5651d;min-height:22px;font-weight:bold}
+.awardbox{margin-top:10px;font-size:18px;font-weight:bold;color:#c0392b;min-height:32px}
+.abtn{padding:8px 16px;border-radius:50px;border:1px solid rgba(181,101,29,.3);background:rgba(255,255,255,.55);
+  color:#7a3e1a;font-size:14px;cursor:pointer;font-family:inherit}
+.abtn:active{transform:scale(.92);background:rgba(181,101,29,.15)}
+.barbox{margin-top:10px;height:38px;overflow:hidden;background:rgba(255,215,0,.07);border-radius:60px;
+  padding:0 16px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,215,0,.18)}
+.bartext{font-size:15px;color:#b5651d;white-space:nowrap;font-weight:bold}
+.bartext.anim{animation:marq 9s linear infinite}
+@keyframes marq{0%{transform:translateX(100%);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateX(-100%);opacity:0}}
+
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 
 /* 上升爱心 */
@@ -179,6 +211,39 @@ h1 span{display:inline-block;animation:charUp .6s cubic-bezier(.22,1.3,.36,1) bo
 
   <p class="date">2026 年 9 月 10 日</p>
   <p class="sign">—— <b>信息与通信学院</b>全体学子 敬上</p>
+
+  <hr class="idiv">
+  <div class="isec">
+    <span class="lbl">👩‍🏫 老师签到 · 留下您的足迹</span>
+    <div class="frow">
+      <input class="inp" id="tName" type="text" placeholder="输入称呼（如：王老师）">
+      <button class="bgold" id="signBtn">✨ 签到</button>
+    </div>
+    <p class="smsg" id="signMsg"></p>
+    <div class="tlist" id="tList"></div>
+  </div>
+
+  <hr class="idiv">
+  <div class="isec">
+    <span class="lbl">🏆 老师，请领取您的专属称号</span>
+    <div class="frow" style="gap:8px">
+      <button class="abtn" data-title="最幽默风趣奖">😄 幽默大师</button>
+      <button class="abtn" data-title="最温柔耐心奖">🌸 温柔灯塔</button>
+      <button class="abtn" data-title="学识最渊博奖">📚 行走百科</button>
+      <button class="abtn" data-title="最醍醐灌顶奖">💡 人生导师</button>
+    </div>
+    <p class="awardbox" id="awardBox"></p>
+  </div>
+
+  <hr class="idiv">
+  <div class="isec">
+    <span class="lbl">💬 老师，给同学们留一句悄悄话</span>
+    <div class="frow">
+      <input class="inp" id="tReply" type="text" placeholder="输入您想对同学们说的话...">
+      <button class="bgrowse" id="replyBtn">💌 发送弹幕</button>
+    </div>
+    <div class="barbox"><span class="bartext" id="barText">❤️ 等待老师的留言～</span></div>
+  </div>
 </div>
 
 <audio id="bgm" loop preload="auto" src="https://teacher-day-2026-1482870451.cos-website.ap-guangzhou.myqcloud.com/bgm.mp3"></audio>
@@ -355,6 +420,73 @@ document.addEventListener('touchstart',function(){
 });
 document.addEventListener('touchend',function(){clearTimeout(pressTimer)});
 document.addEventListener('touchmove',function(){clearTimeout(pressTimer)});
+
+// ========== 互动1：签到墙 ==========
+(function(){
+  var inp=document.getElementById('tName'),btn=document.getElementById('signBtn'),
+      msg=document.getElementById('signMsg'),list=document.getElementById('tList');
+  var teachers=[];
+  try{teachers=JSON.parse(localStorage.getItem('t_sign_list')||'[]');}catch(e){}
+  function render(){
+    list.innerHTML=teachers.map(function(n){return '<span class="tagitem">⭐ '+n+'</span>';}).join('');
+  }
+  render();
+  btn.addEventListener('click',function(e){
+    e.stopPropagation();
+    tryPlayBgm();
+    var name=inp.value.trim();
+    if(!name){msg.textContent='💡 请输入您的称呼呀～';return;}
+    if(teachers.indexOf(name)>=0){msg.textContent='❤️ '+name+' 已经签过到啦，谢谢您！';inp.value='';return;}
+    teachers.push(name);
+    try{localStorage.setItem('t_sign_list',JSON.stringify(teachers));}catch(err){}
+    render();
+    msg.textContent='🎉 欢迎 '+name+'！您的心意已珍藏 ❤️';
+    inp.value='';
+    burst(W/2,H*.4,40,1.3);
+  });
+})();
+
+// ========== 互动2：颁奖台 ==========
+(function(){
+  var box=document.getElementById('awardBox');
+  var saved=null;
+  try{saved=localStorage.getItem('t_award');}catch(e){}
+  if(saved)box.textContent='🏅 您已获得「'+saved+'」，实至名归！';
+  var btns=document.querySelectorAll('.abtn');
+  for(var i=0;i<btns.length;i++){
+    btns[i].addEventListener('click',function(e){
+      e.stopPropagation();
+      tryPlayBgm();
+      var title=this.getAttribute('data-title');
+      box.textContent='🎊 恭喜您获得「'+title+'」🎊';
+      for(var k=0;k<4;k++)(function(idx){
+        setTimeout(function(){burst(W/2+(Math.random()-.5)*W*.5,H*.3+Math.random()*H*.3,70,1.6);},idx*220);
+      })(k);
+      try{localStorage.setItem('t_award',title);}catch(err){}
+    });
+  }
+})();
+
+// ========== 互动3：留言弹幕 ==========
+(function(){
+  var inp=document.getElementById('tReply'),btn=document.getElementById('replyBtn'),
+      bar=document.getElementById('barText');
+  btn.addEventListener('click',function(e){
+    e.stopPropagation();
+    tryPlayBgm();
+    var msg=inp.value.trim();
+    if(!msg)return;
+    bar.textContent='「'+msg+'」—— 来自您最爱的老师 ❤️';
+    bar.classList.remove('anim');
+    void bar.offsetWidth;
+    bar.classList.add('anim');
+    inp.value='';
+    for(var i=0;i<10;i++)setTimeout(spawnFall,i*110);
+  });
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='Enter')btn.click();
+  });
+})();
 </script>
 </body>
 </html>
