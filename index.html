@@ -99,6 +99,19 @@ body{
 .orbit i{position:absolute;top:-4px;left:50%;font-style:normal;font-size:15px}
 .orbit i:nth-child(2){top:auto;bottom:-4px;animation:spin 7s linear infinite reverse}
 @keyframes spin{to{transform:rotate(360deg)}}
+
+/* 点头像冒出的祝福气泡 */
+.bless{position:absolute;left:50%;top:-14px;transform:translateX(-50%);white-space:nowrap;
+  font-size:15px;color:#d94f6b;background:rgba(255,255,255,.94);
+  padding:7px 16px;border-radius:999px;
+  box-shadow:0 6px 18px rgba(217,79,107,.28);
+  animation:blessPop 2.4s ease forwards;z-index:6;pointer-events:none}
+@keyframes blessPop{
+  0%{opacity:0;transform:translateX(-50%) translateY(10px) scale(.6)}
+  15%{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}
+  80%{opacity:1}
+  100%{opacity:0;transform:translateX(-50%) translateY(-16px)}}
+.signal{cursor:pointer}
 @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 
 h1{
@@ -156,7 +169,7 @@ h1 span{display:inline-block;opacity:0;transform:translateY(18px) scale(.7);anim
   <div class="signal">
     <i></i><i></i><i></i>
     <div class="orbit"><i>✨</i><i>💫</i></div>
-    <div class="emoji">👩‍🏫</div>
+    <div class="emoji" id="face">👩‍🏫</div>
   </div>
 
   <h1>老师，节日快乐！</h1>
@@ -300,6 +313,39 @@ document.getElementById('btn').addEventListener('click',function(e){
     },i*260);
   }
 });
+
+// ========== 互动：点头像冒祝福 + 长按祝福雨 ==========
+var blessings=['老师您辛苦了！','桃李满天下！','春晖遍四方！','感谢恩师！','祝您天天开心！'];
+document.getElementById('face').addEventListener('click',function(e){
+  e.stopPropagation();
+  tryPlayBgm();
+  var card=document.querySelector('.card');
+  var old=card.querySelector('.bless');if(old)old.remove();
+  var b=document.createElement('div');
+  b.className='bless';
+  b.textContent=blessings[Math.floor(Math.random()*blessings.length)];
+  card.appendChild(b);
+  // 喷玫瑰色粒子
+  var cx=e.clientX||W/2, cy=e.clientY||H/2;
+  for(var i=0;i<34;i++){
+    var a=Math.random()*Math.PI*2,v=Math.random()*.55+.2;
+    parts.push({x:cx,y:cy,vx:Math.cos(a)*v,vy:Math.sin(a)*v-(Math.random()*.3),
+      r:Math.random()*3+1.5,c:['#ff6b9d','#f783ac','#ffd43b','#ff8fa3'][i%4],
+      life:1,decay:Math.random()*.012+.006,g:.11});
+  }
+  for(var k=0;k<6;k++)spawnRise();
+  setTimeout(function(){b.remove()},2400);
+});
+// 长按屏幕涌祝福雨
+var pressTimer=null;
+document.addEventListener('touchstart',function(){
+  clearTimeout(pressTimer);
+  pressTimer=setTimeout(function(){
+    for(var i=0;i<12;i++)spawnFall();
+  },650);
+});
+document.addEventListener('touchend',function(){clearTimeout(pressTimer)});
+document.addEventListener('touchmove',function(){clearTimeout(pressTimer)});
 </script>
 </body>
 </html>
