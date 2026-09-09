@@ -1,367 +1,492 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
+<!--
+  教师节彩蛋页 · 2026.9.10 · 信息与通信学院
+  想改文案：改下方 <div class="card"> 里的文字
+  想改署名：改“信息与通信学院全体学子 敬上”那一行
+-->
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>教师节 · 致谢</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            min-height: 100vh; display: flex; justify-content: center; align-items: center;
-            font-family: "STKaiti","KaiTi","FangSong","PingFang SC","Microsoft YaHei",sans-serif;
-            background: #f7f0e9; padding: 20px; position: relative; overflow-x: hidden;
-        }
-        body::before {
-            content: ''; position: fixed; top: -30%; right: -20%; width: 80%; height: 80%;
-            background: radial-gradient(circle, rgba(235,205,167,0.3) 0%, transparent 70%);
-            pointer-events: none; z-index: 0;
-        }
-        body::after {
-            content: ''; position: fixed; bottom: -20%; left: -20%; width: 70%; height: 70%;
-            background: radial-gradient(circle, rgba(200,170,140,0.2) 0%, transparent 70%);
-            pointer-events: none; z-index: 0;
-        }
-        .card {
-            position: relative; z-index: 10; max-width: 460px; width: 100%;
-            background: rgba(255,252,248,0.85); backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px); border-radius: 48px;
-            padding: 48px 32px 40px;
-            box-shadow: 0 20px 60px rgba(120,80,50,0.12), 0 8px 24px rgba(120,80,50,0.06);
-            border: 1px solid rgba(255,255,255,0.6);
-        }
-        .meta-badge {
-            display: inline-block; font-size: 12px; letter-spacing: 5px; color: #b5651d; font-weight: bold;
-            background: rgba(201,168,124,0.12); padding: 8px 20px; border-radius: 60px;
-            margin-bottom: 24px; border: 1px solid rgba(201,168,124,0.25);
-        }
-        .main-title {
-            font-size: 42px; font-weight: 700; color: #7a3e1a; letter-spacing: 2px; line-height: 1.2;
-            margin-bottom: 6px; text-align: center;
-        }
-        .sub-title {
-            font-size: 15px; color: #b5651d; letter-spacing: 8px;
-            margin-bottom: 28px; text-align: center;
-            border-bottom: 1px solid rgba(200,180,165,0.2); padding-bottom: 24px;
-        }
-        .carousel { text-align: center; padding: 12px 0; margin-bottom: 16px; min-height: 40px; }
-        .carousel p { font-size: 20px; color: #7a5d42; letter-spacing: 2px; transition: opacity 0.6s ease; }
-        .surprise-btn {
-            width: 100%; padding: 16px 0; background: transparent; border: 1.5px solid #dccfc4;
-            border-radius: 60px; font-size: 16px; color: #7a5d42; letter-spacing: 4px;
-            cursor: pointer; font-family: inherit; margin-bottom: 20px;
-        }
-        .surprise-btn:active { transform: scale(0.97); background: rgba(200,180,165,0.15); }
-        .footer-meta {
-            text-align: center; font-size: 13px; color: #b8a088; letter-spacing: 2px; line-height: 2;
-            margin-bottom: 8px;
-        }
-        .footer-meta strong { font-weight: 600; color: #8a7058; }
-        .interact-section { margin-top: 28px; padding-top: 24px; border-top: 1px solid rgba(200,180,165,0.15); }
-        .interact-section:first-of-type { border-top: none; margin-top: 16px; padding-top: 0; }
-        .section-label {
-            font-size: 13px; color: #b09880; letter-spacing: 3px;
-            margin-bottom: 16px; display: block; text-align: center;
-        }
-        .sign-row, .reply-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-        .sign-input, .reply-input {
-            flex: 1 1 160px; min-width: 130px; padding: 12px 18px; border-radius: 60px;
-            border: 1px solid #e6dbd2; background: rgba(255,252,248,0.6); font-size: 14px;
-            font-family: inherit; color: #3d2b1a; outline: none;
-        }
-        .sign-input:focus, .reply-input:focus {
-            border-color: #c9a87c; box-shadow: 0 0 0 3px rgba(201,168,124,0.1);
-        }
-        .sign-input::placeholder, .reply-input::placeholder { color: #c4b4a6; }
-        .btn-gold {
-            padding: 12px 28px; border-radius: 60px; border: none; background: #c9b8a8;
-            color: #fff; font-size: 14px; letter-spacing: 2px; cursor: pointer;
-            font-family: inherit; box-shadow: 0 4px 16px rgba(180,155,135,0.2);
-        }
-        .btn-gold:active { transform: scale(0.94); }
-        .btn-ink {
-            padding: 12px 28px; border-radius: 60px; border: 1px solid #dccfc4; background: transparent;
-            color: #7a5d42; font-size: 14px; letter-spacing: 2px; cursor: pointer;
-            font-family: inherit;
-        }
-        .btn-ink:active { transform: scale(0.94); background: rgba(200,180,165,0.08); }
-        .sign-feedback {
-            margin-top: 10px; font-size: 14px; color: #8a7058; min-height: 22px;
-            text-align: center; letter-spacing: 1px;
-        }
-        .star-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 12px; min-height: 28px; }
-        .star-item {
-            font-size: 13px; color: #8a7058; background: rgba(201,168,124,0.08);
-            padding: 4px 16px; border-radius: 60px; border: 1px solid rgba(201,168,124,0.1);
-            animation: softPop 0.4s cubic-bezier(0.34,1.56,0.64,1);
-        }
-        @keyframes softPop {
-            0% { opacity: 0; transform: scale(0.6) translateY(10px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        .award-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 6px; }
-        .award-chip {
-            padding: 8px 18px; border-radius: 60px; border: 1px solid #e6dbd2;
-            background: rgba(255,252,248,0.4); font-size: 13px; color: #7a5d42;
-            font-family: inherit; cursor: pointer;
-        }
-        .award-chip:active { transform: scale(0.92); background: rgba(201,168,124,0.1); }
-        .award-display {
-            text-align: center; margin-top: 14px; font-size: 19px; font-weight: 600;
-            color: #5d3f2a; min-height: 36px; letter-spacing: 2px;
-        }
-        .award-display.pop { animation: glowPulse 0.8s ease; }
-        @keyframes glowPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.04); color: #c9a87c; }
-            100% { transform: scale(1); }
-        }
-        .barrage-box {
-            margin-top: 14px; padding: 14px 20px; border-radius: 20px;
-            background: rgba(245,240,235,0.4); border: 1px solid rgba(200,180,165,0.1);
-            min-height: 52px; display: flex; align-items: center; justify-content: center;
-            position: relative; overflow: hidden;
-        }
-        .barrage-box::before {
-            content: ''; position: absolute; top: 0; left: 20px; right: 20px; height: 2px;
-            background: repeating-linear-gradient(90deg, #dccfc4 0px, #dccfc4 4px, transparent 4px, transparent 8px);
-            opacity: 0.4;
-        }
-        .barrage-text {
-            font-size: 15px; color: #5d3f2a; letter-spacing: 1px;
-            white-space: nowrap; max-width: 100%;
-        }
-        .barrage-text.animate { animation: slideMarquee 12s linear infinite; }
-        @keyframes slideMarquee {
-            0% { transform: translateX(100%); opacity: 0; }
-            8% { opacity: 1; } 92% { opacity: 1; }
-            100% { transform: translateX(-100%); opacity: 0; }
-        }
-        @media (max-width: 480px) {
-            .card { padding: 32px 20px 28px; }
-            .main-title { font-size: 32px; }
-            .sub-title { font-size: 13px; letter-spacing: 6px; padding-bottom: 18px; }
-            .carousel p { font-size: 17px; }
-            .award-display { font-size: 16px; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#ffe9d6">
+<title>教师节快乐 · 信息与通信学院</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
+html,body{width:100%;min-height:100%;overflow-x:auto;overflow-y:auto}
+body{
+  font-family:"STKaiti","KaiTi","FangSong","Microsoft YaHei",sans-serif;
+  background:linear-gradient(160deg,#fffaf3,#ffe9d6 30%,#ffdcc8 60%,#fbd6e2 85%,#ffeef5);
+  background-size:200% 200%;
+  animation:bgShift 24s ease-in-out infinite;
+  display:flex;align-items:center;justify-content:center;
+  padding:20px 0;cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:manipulation;
+}
+@keyframes bgShift{0%,100%{background-position:0% 30%}50%{background-position:100% 70%}}
+
+/* 柔和光斑 */
+.blob{position:fixed;border-radius:50%;filter:blur(70px);z-index:0;pointer-events:none;opacity:.55}
+.blob.b1{width:46vmax;height:46vmax;left:-12vmax;top:-14vmax;background:#ffd9a8;animation:float1 16s ease-in-out infinite}
+.blob.b2{width:38vmax;height:38vmax;right:-10vmax;top:22vmax;background:#ffb8cd;animation:float2 20s ease-in-out infinite}
+.blob.b3{width:34vmax;height:34vmax;left:30vmax;bottom:-16vmax;background:#bfe0ff;opacity:.35;animation:float3 18s ease-in-out infinite}
+@keyframes float1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(4vmax,3vmax) scale(1.12)}}
+@keyframes float2{0%,100%{transform:translate(0,0) scale(1.05)}50%{transform:translate(-4vmax,-3vmax) scale(.95)}}
+@keyframes float3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(3vmax,-4vmax) scale(1.1)}}
+
+/* 背景闪烁星星 */
+.star{position:fixed;border-radius:50%;background:#fff;box-shadow:0 0 6px rgba(255,255,255,.9),0 0 12px rgba(255,215,150,.8);animation:twinkle ease-in-out infinite;pointer-events:none;z-index:1}
+@keyframes twinkle{0%,100%{opacity:.15;transform:scale(.8)}50%{opacity:.95;transform:scale(1.15)}}
+
+/* 满屏飘落：祝福字 + 星星 */
+.float-word{position:fixed;top:-12vh;z-index:2;pointer-events:none;opacity:0;will-change:transform;animation:fall linear forwards;text-shadow:0 2px 8px rgba(180,120,60,.25)}
+@keyframes fall{
+  0%{transform:translate(0,0) rotate(0deg);opacity:0}
+  8%{opacity:.85}
+  50%{transform:translate(26px,55vh) rotate(160deg)}
+  85%{opacity:.5}
+  100%{transform:translate(-16px,115vh) rotate(320deg);opacity:0}
+}
+
+/* 主卡片 */
+.card{
+  position:relative;z-index:5;max-width:min(660px,90vw);
+  padding:clamp(30px,5.5vw,54px) clamp(26px,6vw,62px) clamp(34px,6vw,58px);
+  text-align:center;
+  border-radius:30px;
+  background:linear-gradient(145deg,rgba(255,255,255,.93),rgba(255,248,240,.86));
+  -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 30px 80px rgba(190,110,50,.28),0 6px 24px rgba(190,110,50,.12),inset 0 1px 0 #fff;
+  animation:cardIn 1s cubic-bezier(.22,1.2,.36,1) both,cardFloat 5s 1.4s ease-in-out infinite;
+}
+@keyframes cardFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+
+/* 点击涟漪圆环 */
+.ring{position:fixed;border-radius:50%;border:2px solid rgba(240,163,74,.75);pointer-events:none;z-index:9;transform:translate(-50%,-50%);animation:ringOut .85s ease-out forwards}
+@keyframes ringOut{from{width:0;height:0;opacity:.95;border-width:3px}to{width:170px;height:170px;opacity:0;border-width:1px}}
+/* 金色描边光环 */
+.card::before{
+  content:"";position:absolute;inset:-2px;border-radius:32px;z-index:-1;
+  background:linear-gradient(140deg,rgba(240,163,74,.55),rgba(255,255,255,0) 30%,rgba(224,104,92,.4) 60%,rgba(240,163,74,.5));
+}
+@keyframes cardIn{from{opacity:0;transform:translateY(28px) scale(.93)}to{opacity:1;transform:none}}
+
+/* 角落装饰 */
+.corner{position:absolute;font-size:clamp(22px,4vw,34px);opacity:.5;pointer-events:none}
+.corner.c1{top:14px;left:18px;transform:rotate(-14deg)}
+.corner.c2{bottom:12px;right:16px;transform:rotate(10deg)}
+
+.badge{
+  display:inline-block;font-size:18px;font-weight:700;letter-spacing:4px;color:#a5713a;
+  border:1px solid #e7cba0;border-radius:999px;padding:8px 22px;
+  background:linear-gradient(180deg,#fffdf7,#fdf3e0);
+  box-shadow:0 3px 10px rgba(190,120,60,.14);
+  margin-bottom:16px;animation:fadeUp .8s .15s both;
+}
+
+/* 信号波纹 + 老师头像（呼应信息与通信学院） */
+.signal{position:relative;width:86px;height:86px;margin:0 auto 12px}
+.signal i{position:absolute;inset:0;border:2px solid rgba(240,163,74,.55);border-radius:50%;animation:wave 2.6s ease-out infinite}
+.signal i:nth-child(2){animation-delay:.7s}
+.signal i:nth-child(3){animation-delay:1.4s}
+@keyframes wave{0%{transform:scale(.35);opacity:1}100%{transform:scale(1.55);opacity:0}}
+.emoji{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:clamp(42px,7vw,56px);line-height:1;
+  animation:bounce 2.6s ease-in-out infinite;
+  filter:drop-shadow(0 6px 12px rgba(240,150,70,.35));
+}
+.orbit{position:absolute;inset:-8px;pointer-events:none;animation:spin 7s linear infinite}
+.orbit i{position:absolute;top:-4px;left:50%;font-style:normal;font-size:15px}
+.orbit i:nth-child(2){top:auto;bottom:-4px;animation:spin 7s linear infinite reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* 点头像冒出的祝福气泡 */
+.bless{position:absolute;left:50%;top:-14px;transform:translateX(-50%);white-space:nowrap;
+  font-size:15px;color:#d94f6b;background:rgba(255,255,255,.94);
+  padding:7px 16px;border-radius:999px;
+  box-shadow:0 6px 18px rgba(217,79,107,.28);
+  animation:blessPop 2.4s ease forwards;z-index:6;pointer-events:none}
+@keyframes blessPop{
+  0%{opacity:0;transform:translateX(-50%) translateY(10px) scale(.6)}
+  15%{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}
+  80%{opacity:1}
+  100%{opacity:0;transform:translateX(-50%) translateY(-16px)}}
+.signal{cursor:pointer}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+h1{
+  font-size:clamp(26px,6vw,50px);font-weight:700;letter-spacing:2px;
+  white-space:nowrap;text-align:center;
+  color:#b5651d;
+  margin-bottom:12px;animation:fadeUp .8s .3s both;
+  text-shadow:0 6px 22px rgba(224,139,63,.18);
+}
+h1 span{display:inline-block;animation:charUp .6s cubic-bezier(.22,1.3,.36,1) both}
+@keyframes charUp{0%{opacity:0;transform:translateY(18px) scale(.7)}100%{opacity:1;transform:none}}
+.divider{width:56px;height:2px;margin:0 auto 12px;border-radius:2px;background:linear-gradient(90deg,transparent,#e2a14e,transparent);animation:fadeUp .8s .42s both}
+.sub{font-size:clamp(20px,4vw,28px);color:#7a5430;font-weight:600;letter-spacing:4px;margin-bottom:16px;animation:fadeUp .8s .48s both}
+.rotator{font-size:16px;color:#b5742d;letter-spacing:3px;min-height:24px;margin:0 0 22px;transition:opacity .35s ease;animation:fadeUp .8s .55s both}
+.date{font-size:14px;font-weight:600;color:#a89070;letter-spacing:3px;margin-top:96px;margin-bottom:2px;text-align:right;animation:fadeUp .8s .6s both}
+
+.btn{
+  position:relative;overflow:hidden;font-family:inherit;font-size:16px;letter-spacing:2px;color:#fff;
+  background:linear-gradient(135deg,#f0a34a,#e0685c);
+  border:none;border-radius:999px;padding:13px 34px;cursor:pointer;
+  box-shadow:0 10px 26px rgba(224,104,92,.42);
+  transition:transform .2s,box-shadow .2s;animation:fadeUp .8s .64s both;
+}
+.btn:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 14px 32px rgba(224,104,92,.52)}
+.btn:active{transform:scale(.97)}
+.btn::after{content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);transform:skewX(-20deg);animation:shine 3.2s ease-in-out infinite}
+@keyframes shine{0%,60%{left:-70%}100%{left:130%}}
+
+.sign{margin-top:2px;font-size:15px;font-weight:600;color:#8a6a4a;letter-spacing:2px;text-align:right;animation:fadeUp .8s .72s both}
+.sign b{color:#b5742d;font-weight:600}
+.hint{margin-top:9px;font-size:12px;color:#c9b090;letter-spacing:1px;animation:fadeUp .8s .8s both}
+
+/* ===== 互动模块 ===== */
+.idiv{border:none;border-top:1.5px dashed rgba(181,101,29,.25);margin:26px 0 16px}
+.isec{text-align:center}
+.isec .lbl{font-size:14px;color:#b5651d;opacity:.85;margin-bottom:10px;display:block}
+.frow{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px}
+.inp{padding:10px 18px;border-radius:50px;border:1px solid #f0a34a;outline:none;font-size:14px;
+  background:rgba(255,255,255,.75);flex:1 1 150px;min-width:130px;color:#3d2b1a;font-family:inherit}
+.inp::placeholder{color:#b5651d;opacity:.55}
+.inp:focus{border-color:#b5651d;box-shadow:0 0 0 3px rgba(181,101,29,.15)}
+.bgold{padding:10px 24px;border-radius:50px;border:none;background:linear-gradient(135deg,#f0a34a,#b5651d);
+  color:#fff;font-size:14px;font-weight:bold;cursor:pointer;box-shadow:0 4px 16px rgba(181,101,29,.25);
+  white-space:nowrap;font-family:inherit}
+.bgold:active{transform:scale(.94)}
+.bgrowse{padding:10px 24px;border-radius:50px;border:none;background:linear-gradient(135deg,#e0685c,#c0392b);
+  color:#fff;font-size:14px;font-weight:bold;cursor:pointer;box-shadow:0 4px 16px rgba(192,57,43,.25);
+  white-space:nowrap;font-family:inherit}
+.bgrowse:active{transform:scale(.94)}
+.tlist{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:10px;min-height:32px}
+.tagitem{background:rgba(255,215,0,.16);padding:4px 14px;border-radius:30px;font-size:13px;
+  border:1px solid #f0a34a;color:#7a3e1a;animation:popIn .3s ease}
+@keyframes popIn{0%{transform:scale(.5);opacity:0}80%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+.smsg{margin-top:8px;font-size:14px;color:#b5651d;min-height:22px;font-weight:bold}
+.awardbox{margin-top:10px;font-size:18px;font-weight:bold;color:#c0392b;min-height:32px}
+.abtn{padding:8px 16px;border-radius:50px;border:1px solid rgba(181,101,29,.3);background:rgba(255,255,255,.55);
+  color:#7a3e1a;font-size:14px;cursor:pointer;font-family:inherit}
+.abtn:active{transform:scale(.92);background:rgba(181,101,29,.15)}
+.barbox{margin-top:10px;height:38px;overflow:hidden;background:rgba(255,215,0,.07);border-radius:60px;
+  padding:0 16px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,215,0,.18)}
+.bartext{font-size:15px;color:#b5651d;white-space:nowrap;font-weight:bold}
+.bartext.anim{animation:marq 9s linear infinite}
+@keyframes marq{0%{transform:translateX(100%);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateX(-100%);opacity:0}}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* 上升爱心 */
+.rise{position:fixed;bottom:-8vh;z-index:3;pointer-events:none;opacity:0;animation:rise ease-out forwards}
+@keyframes rise{0%{transform:translateY(0) scale(.6) rotate(-8deg);opacity:0}15%{opacity:.95}100%{transform:translateY(-120vh) scale(1.15) rotate(10deg);opacity:0}}
+
+#fx{position:fixed;inset:0;z-index:4;pointer-events:none}
+</style>
 </head>
 <body>
-<div class="card" id="mainCard">
-    <div style="text-align: center;"><span class="meta-badge">✦ 第 42 个 教 师 节 ✦</span></div>
-    <h1 class="main-title">老师，节日快乐！</h1>
-    <div class="sub-title">提灯引路 · 育梦成光</div>
-    <div class="carousel"><p id="carouselText">🌸 感谢恩师！</p></div>
-    <button class="surprise-btn" id="surpriseBtn">✦ 点一下屏幕，有惊喜 ✦</button>
-    <div class="footer-meta">
-        <strong>2026 年 9 月 10 日</strong><br>
-        信息与通信学院全体学子 敬上
+
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+<div class="blob b3"></div>
+
+<div class="card">
+  <span class="corner c2">🌻</span>
+
+  <div class="badge">第 42 个 教 师 节</div>
+
+  <div class="signal">
+    <i></i><i></i><i></i>
+    <div class="orbit"><i>✨</i><i>💫</i></div>
+    <div class="emoji" id="face">👩‍🏫</div>
+  </div>
+
+  <h1>老师，节日快乐！</h1>
+  <div class="divider"></div>
+  <p class="sub">提灯引路 · 育梦成光</p>
+  <p class="rotator">感谢恩师！</p>
+
+  <button class="btn" id="btn">老师，点一下屏幕，有惊喜</button>
+
+  <p class="date">2026 年 9 月 10 日</p>
+  <p class="sign">—— <b>信息与通信学院</b>全体学子 敬上</p>
+
+  <hr class="idiv">
+  <div class="isec">
+    <span class="lbl">👩‍🏫 老师签到 · 留下您的足迹</span>
+    <div class="frow">
+      <input class="inp" id="tName" type="text" placeholder="输入称呼（如：王老师）">
+      <button class="bgold" id="signBtn">✨ 签到</button>
     </div>
-    <div class="interact-section">
-        <span class="section-label">👩‍🏫 留下您的足迹</span>
-        <div class="sign-row">
-            <input class="sign-input" id="teacherNameInput" type="text" placeholder="输入称呼（如：王老师）">
-            <button class="btn-gold" id="signBtn">签到</button>
-        </div>
-        <div class="sign-feedback" id="signMessage"></div>
-        <div class="star-list" id="teacherList"></div>
+    <p class="smsg" id="signMsg"></p>
+    <div class="tlist" id="tList"></div>
+  </div>
+
+  <hr class="idiv">
+  <div class="isec">
+    <span class="lbl">🏆 老师，请领取您的专属称号</span>
+    <div class="frow" style="gap:8px">
+      <button class="abtn" data-title="最幽默风趣奖">😄 幽默大师</button>
+      <button class="abtn" data-title="最温柔耐心奖">🌸 温柔灯塔</button>
+      <button class="abtn" data-title="学识最渊博奖">📚 行走百科</button>
+      <button class="abtn" data-title="最醍醐灌顶奖">💡 人生导师</button>
     </div>
-    <div class="interact-section">
-        <span class="section-label">🏆 领取专属称号</span>
-        <div class="award-grid">
-            <button class="award-chip" data-title="最幽默风趣奖">😄 幽默大师</button>
-            <button class="award-chip" data-title="最温柔耐心奖">🌸 温柔灯塔</button>
-            <button class="award-chip" data-title="学识最渊博奖">📚 行走百科</button>
-            <button class="award-chip" data-title="最醍醐灌顶奖">💡 人生导师</button>
-        </div>
-        <div class="award-display" id="awardDisplay"></div>
+    <p class="awardbox" id="awardBox"></p>
+  </div>
+
+  <hr class="idiv">
+  <div class="isec">
+    <span class="lbl">💬 老师，给同学们留一句悄悄话</span>
+    <div class="frow">
+      <input class="inp" id="tReply" type="text" placeholder="输入您想对同学们说的话...">
+      <button class="bgrowse" id="replyBtn">💌 发送弹幕</button>
     </div>
-    <div class="interact-section">
-        <span class="section-label">💬 给同学们的悄悄话</span>
-        <div class="reply-row">
-            <input class="reply-input" id="teacherReplyInput" type="text" placeholder="输入您想说的话...">
-            <button class="btn-ink" id="replyBtn">发送弹幕</button>
-        </div>
-        <div class="barrage-box">
-            <span class="barrage-text" id="barrageText">❤️ 等待老师的留言</span>
-        </div>
-    </div>
+    <div class="barbox"><span class="bartext" id="barText">❤️ 等待老师的留言～</span></div>
+  </div>
 </div>
+
 <audio id="bgm" loop preload="auto" src="https://teacher-day-2026-1482870451.cos-website.ap-guangzhou.myqcloud.com/bgm.mp3"></audio>
+<canvas id="fx"></canvas>
+
 <script>
-    const SUPABASE_URL = 'https://wwkahjgatheebewdv.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind3a2FoamdhdGhlZWJld2R2eWd6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg5MzA3NjAsImV4cCI6MjEwNDUwNjc2MH0.BE018lspGcw18GfNXBAh6CGwRVIa0kO9TCbD5BgMnW4';
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// ========== 标题逐字蹦出 ==========
+(function(){
+  var h1=document.querySelector('h1');
+  var chars=h1.textContent.split('');
+  h1.innerHTML=chars.map(function(c,i){
+    return '<span style="animation-delay:'+(0.3+i*0.08)+'s">'+c+'</span>';
+  }).join('');
+})();
 
-    const quotes = ["🌸 感谢恩师！","📖 桃李满天下！","✨ 师恩永难忘！","🌻 您辛苦了！","💖 我们爱您！"];
-    let qi = 0;
-    const cp = document.getElementById('carouselText');
-    setInterval(() => {
-        qi = (qi + 1) % quotes.length;
-        cp.style.opacity = '0';
-        setTimeout(() => { cp.innerHTML = quotes[qi]; cp.style.opacity = '1'; }, 300);
-    }, 2800);
+// ========== 轮播祝福句 ==========
+var quotes=['感谢恩师！','桃李满天下！','春晖遍四方！','师恩永记心间！','祝您天天开心！'];
+var qi=0,rot=document.querySelector('.rotator');
+if(rot){
+  setInterval(function(){
+    qi=(qi+1)%quotes.length;
+    rot.style.opacity=0;
+    setTimeout(function(){rot.textContent=quotes[qi];rot.style.opacity=1;},350);
+  },2600);
+}
 
-    const fallWords = ['✨','🌸','🍃','📖','💫','🍎'];
-    function startFall() {
-        const el = document.createElement('div');
-        el.textContent = fallWords[Math.floor(Math.random() * fallWords.length)];
-        const size = 16 + Math.random() * 24;
-        el.style.cssText = `position: fixed; left: ${Math.random()*90}vw; top: -30px; font-size: ${size}px; pointer-events: none; z-index: 999; opacity: 0.5; color: #c9a87c;`;
-        document.body.appendChild(el);
-        const dur = 5000 + Math.random() * 5000;
-        const drift = (Math.random() - 0.5) * 180;
-        el.animate([
-            { transform: `translateY(0) translateX(0) rotate(0deg)`, opacity: 0.6 },
-            { transform: `translateY(${window.innerHeight+80}px) translateX(${drift}px) rotate(${Math.random()*360-180}deg)`, opacity: 0.1 }
-        ], { duration: dur, easing: 'ease-in' }).onfinish = () => el.remove();
-    }
-    setInterval(startFall, 700);
-    function startRise() {
-        const el = document.createElement('div');
-        el.textContent = ['❤️','🌸','💛','🌷','💖'][Math.floor(Math.random() * 5)];
-        const size = 18 + Math.random() * 22;
-        el.style.cssText = `position:fixed; left:${Math.random()*90}vw; bottom:-30px; font-size:${size}px; pointer-events:none; z-index:999; opacity:0.5;`;
-        document.body.appendChild(el);
-        const dur = 4000 + Math.random() * 3000;
-        const drift = (Math.random() - 0.5) * 200;
-        el.animate([
-            { transform: `translateY(0) translateX(0) scale(0.6)`, opacity: 0.7 },
-            { transform: `translateY(-${window.innerHeight+120}px) translateX(${drift}px) scale(1)`, opacity: 0 }
-        ], { duration: dur, easing: 'cubic-bezier(0.2,0.8,0.3,1)' }).onfinish = () => el.remove();
-    }
-    setInterval(startRise, 500);
-    function fire(count = 50) {
-        const palette = ['#c9a87c','#dccfc4','#b8a088','#e6dbd2','#f0e8e0','#a8845c'];
-        for (let i = 0; i < count; i++) {
-            const dot = document.createElement('div');
-            const angle = Math.random() * 2 * Math.PI;
-            const radius = 80 + Math.random() * 220;
-            const size = 4 + Math.random() * 8;
-            const col = palette[Math.floor(Math.random() * palette.length)];
-            const cx = window.innerWidth / 2 + (Math.random() - 0.5) * 80;
-            const cy = window.innerHeight / 2 + (Math.random() - 0.5) * 80;
-            dot.style.cssText = `position:fixed; left:${cx}px; top:${cy}px; width:${size}px; height:${size}px; border-radius:50%; background:${col}; pointer-events:none; z-index:9999; opacity:0.9;`;
-            document.body.appendChild(dot);
-            const dx = Math.cos(angle) * radius;
-            const dy = Math.sin(angle) * radius - 100;
-            dot.animate([
-                { transform: 'translate(0,0) scale(1)', opacity: 0.9 },
-                { transform: `translate(${dx}px,${dy}px) scale(0)`, opacity: 0 }
-            ], { duration: 700 + Math.random() * 500, easing: 'ease-out' }).onfinish = () => dot.remove();
-        }
-    }
-    document.getElementById('mainCard').addEventListener('click', function(e) {
-        if (e.target.closest('button') || e.target.closest('input')) return;
-        fire(30);
-        for (let i = 0; i < 5; i++) setTimeout(startRise, i * 100);
-        const bgm = document.getElementById('bgm');
-        if (bgm && bgm.paused) bgm.play().catch(() => {});
+// ========== 满屏飘落：祝福字 + 星星 ==========
+var words=['老','师','节','日','快','乐','🌸','✨','🌟','💫','🍀','❤️','🎉','📡'];
+var colors=['#a86a24','#e08b3f','#d94f6b','#7aa6c9','#9b7bc9'];
+function spawnFall(){
+  var el=document.createElement('div');
+  el.className='float-word';
+  el.textContent=words[Math.floor(Math.random()*words.length)];
+  el.style.left=(Math.random()*96+2)+'vw';
+  el.style.fontSize=(16+Math.random()*30)+'px';
+  el.style.color=colors[Math.floor(Math.random()*colors.length)];
+  el.style.animationDuration=(10+Math.random()*9)+'s';
+  document.body.appendChild(el);
+  setTimeout(function(){el.remove()},22000);
+}
+setInterval(spawnFall,400);
+for(var i=0;i<12;i++)setTimeout(spawnFall,i*650); // 开局先铺满一轮
+
+// ========== 背景闪烁星星 ==========
+for(var i=0;i<46;i++){
+  var s=document.createElement('div');
+  s.className='star';
+  var sz=Math.random()*4+2;
+  s.style.width=s.style.height=sz+'px';
+  s.style.left=(Math.random()*100)+'vw';
+  s.style.top=(Math.random()*100)+'vh';
+  s.style.animationDuration=(1.8+Math.random()*3)+'s';
+  s.style.animationDelay=(Math.random()*3)+'s';
+  document.body.appendChild(s);
+}
+
+// ========== 烟花 / 粒子画布 ==========
+var canvas=document.getElementById('fx'),ctx=canvas.getContext('2d');
+var W,H,parts=[];
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+
+var palette=['#ff6b6b','#ffa94d','#ffd43b','#ff922b','#f783ac','#e8590c','#ffd8a8','#fa5252'];
+
+function burst(x,y,n,power){
+  for(var i=0;i<n;i++){
+    var a=Math.random()*Math.PI*2;
+    var v=(Math.random()*0.5+0.25)*power;
+    parts.push({
+      x:x,y:y,
+      vx:Math.cos(a)*v,
+      vy:Math.sin(a)*v-(Math.random()*0.35),
+      r:Math.random()*3+1.5,
+      c:palette[Math.floor(Math.random()*palette.length)],
+      life:1,
+      decay:Math.random()*0.012+0.006,
+      g:0.11
     });
-    document.getElementById('surpriseBtn').addEventListener('click', function(e) {
-        e.stopPropagation();
-        for (let i = 0; i < 4; i++) setTimeout(() => fire(70), i * 240);
-        for (let i = 0; i < 10; i++) setTimeout(startRise, i * 80);
+  }
+}
+function tick(){
+  ctx.clearRect(0,0,W,H);
+  for(var i=parts.length-1;i>=0;i--){
+    var p=parts[i];
+    p.vy+=p.g;p.x+=p.vx;p.y+=p.vy;
+    p.vx*=.985;p.vy*=.985;
+    p.life-=p.decay;
+    if(p.life<=0){parts.splice(i,1);continue}
+    ctx.globalAlpha=Math.max(p.life,0);
+    ctx.fillStyle=p.c;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
+  }
+  ctx.globalAlpha=1;
+  requestAnimationFrame(tick);
+}
+tick();
+
+// ========== 上升爱心 ==========
+var riseEmojis=['❤️','🌸','💛','🌷','💖'];
+function spawnRise(){
+  var el=document.createElement('div');
+  el.className='rise';
+  el.textContent=riseEmojis[Math.floor(Math.random()*riseEmojis.length)];
+  el.style.left=(Math.random()*90+5)+'vw';
+  el.style.fontSize=(18+Math.random()*22)+'px';
+  el.style.animationDuration=(2.6+Math.random()*1.6)+'s';
+  document.body.appendChild(el);
+  setTimeout(function(){el.remove()},5000);
+}
+
+// 背景音乐：打开即尝试播放，手指碰到屏幕立即兜底播放
+var bgmPlayed=false;
+var bgm=document.getElementById('bgm');
+function tryPlayBgm(){
+  if(bgmPlayed||!bgm)return;
+  var p=bgm.play();
+  if(p&&p.then){p.then(function(){bgmPlayed=true;}).catch(function(){});}
+  else{bgmPlayed=true;}
+}
+tryPlayBgm();
+document.addEventListener('touchstart',tryPlayBgm,{passive:true});
+if(window.WeixinJSBridge){tryPlayBgm();}
+document.addEventListener('WeixinJSBridgeReady',tryPlayBgm);
+document.addEventListener('click',function(e){
+  burst(e.clientX,e.clientY,36,1);
+  if(Math.random()<.5)spawnRise();
+  var r=document.createElement('div');
+  r.className='ring';r.style.left=e.clientX+'px';r.style.top=e.clientY+'px';
+  document.body.appendChild(r);setTimeout(function(){r.remove()},900);
+  tryPlayBgm();
+});
+
+// 按钮：烟花秀
+document.getElementById('btn').addEventListener('click',function(e){
+  e.stopPropagation();
+  tryPlayBgm();
+  for(var i=0;i<4;i++){
+    setTimeout(function(){
+      burst(W/2+(Math.random()-.5)*W*.6,H*.25+Math.random()*H*.45,80,1.7);
+      for(var j=0;j<4;j++)spawnRise();
+    },i*260);
+  }
+});
+
+// ========== 互动：点头像冒祝福 + 长按祝福雨 ==========
+var blessings=['老师您辛苦了！','桃李满天下！','春晖遍四方！','感谢恩师！','祝您天天开心！'];
+document.getElementById('face').addEventListener('click',function(e){
+  e.stopPropagation();
+  tryPlayBgm();
+  var card=document.querySelector('.card');
+  var old=card.querySelector('.bless');if(old)old.remove();
+  var b=document.createElement('div');
+  b.className='bless';
+  b.textContent=blessings[Math.floor(Math.random()*blessings.length)];
+  card.appendChild(b);
+  // 喷玫瑰色粒子
+  var cx=e.clientX||W/2, cy=e.clientY||H/2;
+  for(var i=0;i<34;i++){
+    var a=Math.random()*Math.PI*2,v=Math.random()*.55+.2;
+    parts.push({x:cx,y:cy,vx:Math.cos(a)*v,vy:Math.sin(a)*v-(Math.random()*.3),
+      r:Math.random()*3+1.5,c:['#ff6b9d','#f783ac','#ffd43b','#ff8fa3'][i%4],
+      life:1,decay:Math.random()*.012+.006,g:.11});
+  }
+  for(var k=0;k<6;k++)spawnRise();
+  setTimeout(function(){b.remove()},2400);
+});
+// 长按屏幕涌祝福雨
+var pressTimer=null;
+document.addEventListener('touchstart',function(){
+  clearTimeout(pressTimer);
+  pressTimer=setTimeout(function(){
+    for(var i=0;i<12;i++)spawnFall();
+  },650);
+});
+document.addEventListener('touchend',function(){clearTimeout(pressTimer)});
+document.addEventListener('touchmove',function(){clearTimeout(pressTimer)});
+
+// ========== 互动1：签到墙 ==========
+(function(){
+  var inp=document.getElementById('tName'),btn=document.getElementById('signBtn'),
+      msg=document.getElementById('signMsg'),list=document.getElementById('tList');
+  var teachers=[];
+  try{teachers=JSON.parse(localStorage.getItem('t_sign_list')||'[]');}catch(e){}
+  function render(){
+    list.innerHTML=teachers.map(function(n){return '<span class="tagitem">⭐ '+n+'</span>';}).join('');
+  }
+  render();
+  btn.addEventListener('click',function(e){
+    e.stopPropagation();
+    tryPlayBgm();
+    var name=inp.value.trim();
+    if(!name){msg.textContent='💡 请输入您的称呼呀～';return;}
+    if(teachers.indexOf(name)>=0){msg.textContent='❤️ '+name+' 已经签过到啦，谢谢您！';inp.value='';return;}
+    teachers.push(name);
+    try{localStorage.setItem('t_sign_list',JSON.stringify(teachers));}catch(err){}
+    render();
+    msg.textContent='🎉 欢迎 '+name+'！您的心意已珍藏 ❤️';
+    inp.value='';
+    burst(W/2,H*.4,40,1.3);
+  });
+})();
+
+// ========== 互动2：颁奖台 ==========
+(function(){
+  var box=document.getElementById('awardBox');
+  var saved=null;
+  try{saved=localStorage.getItem('t_award');}catch(e){}
+  if(saved)box.textContent='🏅 您已获得「'+saved+'」，实至名归！';
+  var btns=document.querySelectorAll('.abtn');
+  for(var i=0;i<btns.length;i++){
+    btns[i].addEventListener('click',function(e){
+      e.stopPropagation();
+      tryPlayBgm();
+      var title=this.getAttribute('data-title');
+      box.textContent='🎊 恭喜您获得「'+title+'」🎊';
+      for(var k=0;k<4;k++)(function(idx){
+        setTimeout(function(){burst(W/2+(Math.random()-.5)*W*.5,H*.3+Math.random()*H*.3,70,1.6);},idx*220);
+      })(k);
+      try{localStorage.setItem('t_award',title);}catch(err){}
     });
-    let lp;
-    const card = document.getElementById('mainCard');
-    card.addEventListener('mousedown', () => { lp = setTimeout(() => { for (let i=0; i<10; i++) setTimeout(startFall, i*80); }, 650); });
-    card.addEventListener('mouseup', () => clearTimeout(lp));
-    card.addEventListener('mouseleave', () => clearTimeout(lp));
-    card.addEventListener('touchstart', () => { lp = setTimeout(() => { for (let i=0; i<10; i++) setTimeout(startFall, i*80); }, 650); });
-    card.addEventListener('touchend', () => clearTimeout(lp));
-    card.addEventListener('touchmove', () => clearTimeout(lp));
-    document.addEventListener('click', () => { const b = document.getElementById('bgm'); if (b && b.paused) b.play().catch(()=>{}); }, { once: true });
+  }
+})();
 
-    // 云端签到
-    (function() {
-        const btn = document.getElementById('signBtn');
-        const inp = document.getElementById('teacherNameInput');
-        const msg = document.getElementById('signMessage');
-        const list = document.getElementById('teacherList');
-        async function loadSigns() {
-            const { data, error } = await supabase
-                .from('teacher_signs')
-                .select('name')
-                .order('created_at', { ascending: false })
-                .limit(100);
-            if (error) { msg.textContent = '⚠️ 签到列表加载失败'; return; }
-            list.innerHTML = data.map(row => `<span class="star-item">✦ ${row.name}</span>`).join('');
-        }
-        loadSigns();
-        btn.addEventListener('click', async function() {
-            const name = inp.value.trim();
-            if (!name) { msg.textContent = '💡 请输入称呼'; return; }
-            const { data: existing, error: queryError } = await supabase
-                .from('teacher_signs').select('name').eq('name', name).limit(1);
-            if (queryError) { msg.textContent = '⚠️ 网络异常，请稍后重试'; return; }
-            if (existing && existing.length > 0) {
-                msg.textContent = `❤️ ${name} 已签到`;
-                inp.value = '';
-                return;
-            }
-            const { error } = await supabase.from('teacher_signs').insert([{ name: name }]);
-            if (error) { msg.textContent = '⚠️ 存储失败，请稍后重试'; return; }
-            msg.textContent = `🎉 ${name}，您的心意已珍藏（已同步）`;
-            inp.value = '';
-            loadSigns();
-            fire(20);
-            for (let i=0; i<6; i++) setTimeout(startFall, i*120);
-        });
-    })();
-
-    // 颁奖（本地）
-    (function() {
-        const display = document.getElementById('awardDisplay');
-        let saved = null;
-        try { saved = localStorage.getItem('teacher_award'); } catch(e) {}
-        if (saved) display.textContent = `🏅 您已获得「${saved}」`;
-        document.querySelectorAll('.award-chip').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const title = this.getAttribute('data-title');
-                display.textContent = `🎊 恭喜获得「${title}」`;
-                display.classList.remove('pop');
-                void display.offsetWidth;
-                display.classList.add('pop');
-                for (let i=0; i<5; i++) setTimeout(() => fire(60), i*180);
-                if (navigator.vibrate) navigator.vibrate(20);
-                try { localStorage.setItem('teacher_award', title); } catch(e) {}
-            });
-        });
-    })();
-
-    // 云端留言
-    (function() {
-        const btn = document.getElementById('replyBtn');
-        const inp = document.getElementById('teacherReplyInput');
-        const txt = document.getElementById('barrageText');
-        async function loadLatest() {
-            const { data, error } = await supabase
-                .from('teacher_messages').select('content')
-                .order('created_at', { ascending: false }).limit(1);
-            if (error) return;
-            if (data && data.length > 0) {
-                txt.textContent = `「${data[0].content}」 —— 来自老师 ❤️`;
-                txt.classList.add('animate');
-            }
-        }
-        loadLatest();
-        btn.addEventListener('click', async function(e) {
-            e.stopPropagation();
-            const val = inp.value.trim();
-            if (!val) return;
-            const { error } = await supabase.from('teacher_messages').insert([{ content: val }]);
-            if (error) { alert('留言发送失败，请稍后重试'); return; }
-            txt.textContent = `「${val}」 —— 来自老师 ❤️`;
-            txt.classList.remove('animate');
-            void txt.offsetWidth;
-            txt.classList.add('animate');
-            inp.value = '';
-            for (let i=0; i<8; i++) setTimeout(startFall, i*100);
-        });
-        inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') btn.click(); });
-    })();
+// ========== 互动3：留言弹幕 ==========
+(function(){
+  var inp=document.getElementById('tReply'),btn=document.getElementById('replyBtn'),
+      bar=document.getElementById('barText');
+  btn.addEventListener('click',function(e){
+    e.stopPropagation();
+    tryPlayBgm();
+    var msg=inp.value.trim();
+    if(!msg)return;
+    bar.textContent='「'+msg+'」—— 来自您最爱的老师 ❤️';
+    bar.classList.remove('anim');
+    void bar.offsetWidth;
+    bar.classList.add('anim');
+    inp.value='';
+    for(var i=0;i<10;i++)setTimeout(spawnFall,i*110);
+  });
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='Enter')btn.click();
+  });
+})();
 </script>
 </body>
 </html>
