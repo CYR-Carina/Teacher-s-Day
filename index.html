@@ -256,6 +256,8 @@ function tryPlayBgm(){
 }
 tryPlayBgm();
 document.addEventListener('touchstart',tryPlayBgm,{passive:true});
+if(window.WeixinJSBridge){tryPlayBgm();}
+document.addEventListener('WeixinJSBridgeReady',tryPlayBgm);
 document.addEventListener('click',function(e){
   burst(e.clientX,e.clientY,36,1);
   if(Math.random()<.5)spawnRise();
@@ -265,6 +267,7 @@ document.addEventListener('click',function(e){
 // 按钮：烟花秀
 document.getElementById('btn').addEventListener('click',function(e){
   e.stopPropagation();
+  tryPlayBgm();
   for(var i=0;i<4;i++){
     setTimeout(function(){
       burst(W/2+(Math.random()-.5)*W*.6,H*.25+Math.random()*H*.45,80,1.7);
