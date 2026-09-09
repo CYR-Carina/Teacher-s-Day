@@ -184,7 +184,6 @@ h1 span{display:inline-block;animation:charUp .6s cubic-bezier(.22,1.3,.36,1) bo
 
 #fx{position:fixed;inset:0;z-index:4;pointer-events:none}
 </style>
-<script src="https://static.cloudbase.net/cloudbase-js-sdk/latest/cloudbase.full.js"></script>
 </head>
 <body>
 
@@ -251,15 +250,9 @@ h1 span{display:inline-block;animation:charUp .6s cubic-bezier(.22,1.3,.36,1) bo
 <canvas id="fx"></canvas>
 
 <script>
-// ===== 腾讯云 CloudBase =====
+// ===== 本地存储（签到/颁奖/留言） =====
 var sb=null;
-try{
-  var app = cloudbase.init({
-    env: "teacher-day-d5gpymqcac5006df8",
-    accessKey: "eyJhbGciOiJSUzI1NiIsImtpZCI6IjE0MjEyOGZlLTY4M2EtNDkyNi05ZjBlLWE0MGZiZjQxY2UxNiJ9.eyJpc3MiOiJodHRwczovL3RlYWNoZXItZGF5LWQ1Z3B5bXFjYWM1MDA2ZGY4LmFwLXNoYW5naGFpLnRjYi1hcGkudGVuY2VudGNsb3VkYXBpLmNvbSIsInN1YiI6ImFub24iLCJhdWQiOiJ0ZWFjaGVyLWRheS1kNWdweW1xY2FjNTAwNmRmOCIsImV4cCI6NDA5MjYyNjg5NSwiaWF0IjoxNzg4OTQzNjk1LCJub25jZSI6Im04QTl2U1hXUy15ZDZrS01BNUFMLUEiLCJhdF9oYXNoIjoibThBOXZTWFdTLXlkNmtLTUE1QUwtQSIsIm5hbWUiOiJBbm9ueW1vdXMiLCJzY29wZSI6ImFub255bW91cyIsInByb2plY3RfaWQiOiJ0ZWFjaGVyLWRheS1kNWdweW1xY2FjNTAwNmRmOCIsIm1ldGEiOnsicGxhdGZvcm0iOiJQdWJsaXNoYWJsZUtleSJ9LCJyb2xlIjoiYW5vbiIsImlzX2Fub255bW91cyI6dHJ1ZSwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiYW5vbnltb3VzIiwicHJvdmlkZXJzIjpbImFub255bW91cyJdfSwidXNlcl9tZXRhZGF0YSI6eyJuYW1lIjoiQW5vbnltb3VzIn0sInVzZXJfdHlwZSI6IiIsImNsaWVudF90eXBlIjoiY2xpZW50X3VzZXIiLCJpc19zeXN0ZW1fYWRtaW4iOmZhbHNlfQ.FdXVJR6MEW0G7Z5DWcIe8z85S7ichMkDGyxmNPFfa6gXD28hHlZQn-6mDDhvVdifovK54F4jy7mlNDspKZYXeFKlAQ877WBY77iosjbNBJyoBsgACr4b_Clc8_tlJo4MRw4GY7MOoRU9q4wMT5Ce2uVw68JFsoOuHHr0nZmLA6E4uA4Vu80OplbIjtFzLy93jpkVeNtxoyLz-vYE196kHGNlLv9Nvpl0gHz7GLGGquSS9t7T-mWDkvOzXxTSSlmKAQMiqUtIxoELJYzpcAqAPSK4Fl1IEOWnT5u891-sc-CIFNGZIrLobnHU06Q5qRoTaN57-NtO_bI8h2yKd6YViQ"
-  });
-  sb = app.rdb ? app.rdb() : app.database();
-}catch(e){ console.error('cloudbase init fail', e); }
+
 // ========== 标题逐字蹦出 ==========
 (function(){
   var h1=document.querySelector('h1');
@@ -431,34 +424,27 @@ document.addEventListener('touchstart',function(){
 document.addEventListener('touchend',function(){clearTimeout(pressTimer)});
 document.addEventListener('touchmove',function(){clearTimeout(pressTimer)});
 
-// ========== 互动1：签到墙（云端） ==========
+// ========== 互动1：签到墙（本地） ==========
 (function(){
   var inp=document.getElementById('tName'),btn=document.getElementById('signBtn'),
       msg=document.getElementById('signMsg'),list=document.getElementById('tList');
-  function render(teachers){
+  var teachers=[];
+  try{teachers=JSON.parse(localStorage.getItem('t_sign_list')||'[]');}catch(e){}
+  function render(){
     list.innerHTML=teachers.map(function(n){return '<span class="tagitem">⭐ '+n+'</span>';}).join('');
   }
-  async function load(){
-    if(!sb)return;
-    var r=await sb.from('teacher_signs').select('name').order('created_at',{ascending:false}).limit(100);
-    if(r.error){msg.textContent='⚠️ 签到列表加载失败';return;}
-    render(r.data.map(function(x){return x.name;}));
-  }
-  load();
-  btn.addEventListener('click',async function(e){
+  render();
+  btn.addEventListener('click',function(e){
     e.stopPropagation();
     tryPlayBgm();
     var name=inp.value.trim();
     if(!name){msg.textContent='💡 请输入您的称呼呀～';return;}
-    if(!sb){msg.textContent='⚠️ 云端未连接';return;}
-    var ex=await sb.from('teacher_signs').select('name').eq('name',name).limit(1);
-    if(ex.error){msg.textContent='⚠️ 网络异常';return;}
-    if(ex.data.length>0){msg.textContent='❤️ '+name+' 已经签过到啦，谢谢您！';inp.value='';return;}
-    var ins=await sb.from('teacher_signs').insert([{name:name}]);
-    if(ins.error){msg.textContent='⚠️ 存储失败，请稍后重试';return;}
-    msg.textContent='🎉 欢迎 '+name+'！您的心意已珍藏（已同步）❤️';
+    if(teachers.indexOf(name)>=0){msg.textContent='❤️ '+name+' 已经签过到啦，谢谢您！';inp.value='';return;}
+    teachers.push(name);
+    try{localStorage.setItem('t_sign_list',JSON.stringify(teachers));}catch(err){}
+    render();
+    msg.textContent='🎉 欢迎 '+name+'！您的心意已珍藏 ❤️';
     inp.value='';
-    load();
     burst(W/2,H*.4,40,1.3);
   });
 })();
@@ -484,30 +470,26 @@ document.addEventListener('touchmove',function(){clearTimeout(pressTimer)});
   }
 })();
 
-// ========== 互动3：留言弹幕（云端） ==========
+// ========== 互动3：留言弹幕（本地） ==========
 (function(){
   var inp=document.getElementById('tReply'),btn=document.getElementById('replyBtn'),
       bar=document.getElementById('barText');
-  async function loadLatest(){
-    if(!sb)return;
-    var r=await sb.from('teacher_messages').select('content').order('created_at',{ascending:false}).limit(1);
-    if(r.error||!r.data||r.data.length===0)return;
-    bar.textContent='「'+r.data[0].content+'」—— 来自老师 ❤️';
+  var saved=null;
+  try{saved=localStorage.getItem('t_reply');}catch(e){}
+  if(saved){
+    bar.textContent='「'+saved+'」—— 来自老师 ❤️';
     bar.classList.add('anim');
   }
-  loadLatest();
-  btn.addEventListener('click',async function(e){
+  btn.addEventListener('click',function(e){
     e.stopPropagation();
     tryPlayBgm();
     var msg=inp.value.trim();
     if(!msg)return;
-    if(!sb){alert('云端未连接');return;}
-    var ins=await sb.from('teacher_messages').insert([{content:msg}]);
-    if(ins.error){alert('留言发送失败，请稍后重试');return;}
     bar.textContent='「'+msg+'」—— 来自老师 ❤️';
     bar.classList.remove('anim');
     void bar.offsetWidth;
     bar.classList.add('anim');
+    try{localStorage.setItem('t_reply',msg);}catch(err){}
     inp.value='';
     for(var i=0;i<10;i++)setTimeout(spawnFall,i*110);
   });
