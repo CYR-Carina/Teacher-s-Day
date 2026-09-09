@@ -353,6 +353,8 @@ document.addEventListener('click',function(e){
 document.getElementById('btn').addEventListener('click',function(e){
   e.stopPropagation();
   tryPlayBgm();
+  startFall();
+  startRiseLoop();
   for(var i=0;i<4;i++){
     setTimeout(function(){
       burst(W/2+(Math.random()-.5)*W*.6,H*.25+Math.random()*H*.45,80,1.7);
