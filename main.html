@@ -211,39 +211,6 @@ h1 span{display:inline-block;animation:charUp .6s cubic-bezier(.22,1.3,.36,1) bo
 
   <p class="date">2026 年 9 月 10 日</p>
   <p class="sign">—— <b>信息与通信学院</b>全体学子 敬上</p>
-
-  <hr class="idiv">
-  <div class="isec">
-    <span class="lbl">👩‍🏫 老师签到 · 留下您的足迹</span>
-    <div class="frow">
-      <input class="inp" id="tName" type="text" placeholder="输入称呼（如：王老师）">
-      <button class="bgold" id="signBtn">✨ 签到</button>
-    </div>
-    <p class="smsg" id="signMsg"></p>
-    <div class="tlist" id="tList"></div>
-  </div>
-
-  <hr class="idiv">
-  <div class="isec">
-    <span class="lbl">🏆 老师，请领取您的专属称号</span>
-    <div class="frow" style="gap:8px">
-      <button class="abtn" data-title="最幽默风趣奖">😄 幽默大师</button>
-      <button class="abtn" data-title="最温柔耐心奖">🌸 温柔灯塔</button>
-      <button class="abtn" data-title="学识最渊博奖">📚 行走百科</button>
-      <button class="abtn" data-title="最醍醐灌顶奖">💡 人生导师</button>
-    </div>
-    <p class="awardbox" id="awardBox"></p>
-  </div>
-
-  <hr class="idiv">
-  <div class="isec">
-    <span class="lbl">💬 老师，给同学们留一句悄悄话</span>
-    <div class="frow">
-      <input class="inp" id="tReply" type="text" placeholder="输入您想对同学们说的话...">
-      <button class="bgrowse" id="replyBtn">💌 发送弹幕</button>
-    </div>
-    <div class="barbox"><span class="bartext" id="barText">❤️ 等待老师的留言～</span></div>
-  </div>
 </div>
 
 <audio id="bgm" loop preload="auto" src="https://teacher-day-2026-1482870451.cos-website.ap-guangzhou.myqcloud.com/bgm.mp3"></audio>
@@ -423,80 +390,6 @@ document.addEventListener('touchstart',function(){
 });
 document.addEventListener('touchend',function(){clearTimeout(pressTimer)});
 document.addEventListener('touchmove',function(){clearTimeout(pressTimer)});
-
-// ========== 互动1：签到墙（本地） ==========
-(function(){
-  var inp=document.getElementById('tName'),btn=document.getElementById('signBtn'),
-      msg=document.getElementById('signMsg'),list=document.getElementById('tList');
-  var teachers=[];
-  try{teachers=JSON.parse(localStorage.getItem('t_sign_list')||'[]');}catch(e){}
-  function render(){
-    list.innerHTML=teachers.map(function(n){return '<span class="tagitem">⭐ '+n+'</span>';}).join('');
-  }
-  render();
-  btn.addEventListener('click',function(e){
-    e.stopPropagation();
-    tryPlayBgm();
-    var name=inp.value.trim();
-    if(!name){msg.textContent='💡 请输入您的称呼呀～';return;}
-    if(teachers.indexOf(name)>=0){msg.textContent='❤️ '+name+' 已经签过到啦，谢谢您！';inp.value='';return;}
-    teachers.push(name);
-    try{localStorage.setItem('t_sign_list',JSON.stringify(teachers));}catch(err){}
-    render();
-    msg.textContent='🎉 欢迎 '+name+'！您的心意已珍藏 ❤️';
-    inp.value='';
-    burst(W/2,H*.4,40,1.3);
-  });
-})();
-
-// ========== 互动2：颁奖台 ==========
-(function(){
-  var box=document.getElementById('awardBox');
-  var saved=null;
-  try{saved=localStorage.getItem('t_award');}catch(e){}
-  if(saved)box.textContent='🏅 您已获得「'+saved+'」，实至名归！';
-  var btns=document.querySelectorAll('.abtn');
-  for(var i=0;i<btns.length;i++){
-    btns[i].addEventListener('click',function(e){
-      e.stopPropagation();
-      tryPlayBgm();
-      var title=this.getAttribute('data-title');
-      box.textContent='🎊 恭喜您获得「'+title+'」🎊';
-      for(var k=0;k<4;k++)(function(idx){
-        setTimeout(function(){burst(W/2+(Math.random()-.5)*W*.5,H*.3+Math.random()*H*.3,70,1.6);},idx*220);
-      })(k);
-      try{localStorage.setItem('t_award',title);}catch(err){}
-    });
-  }
-})();
-
-// ========== 互动3：留言弹幕（本地） ==========
-(function(){
-  var inp=document.getElementById('tReply'),btn=document.getElementById('replyBtn'),
-      bar=document.getElementById('barText');
-  var saved=null;
-  try{saved=localStorage.getItem('t_reply');}catch(e){}
-  if(saved){
-    bar.textContent='「'+saved+'」—— 来自老师 ❤️';
-    bar.classList.add('anim');
-  }
-  btn.addEventListener('click',function(e){
-    e.stopPropagation();
-    tryPlayBgm();
-    var msg=inp.value.trim();
-    if(!msg)return;
-    bar.textContent='「'+msg+'」—— 来自老师 ❤️';
-    bar.classList.remove('anim');
-    void bar.offsetWidth;
-    bar.classList.add('anim');
-    try{localStorage.setItem('t_reply',msg);}catch(err){}
-    inp.value='';
-    for(var i=0;i<10;i++)setTimeout(spawnFall,i*110);
-  });
-  inp.addEventListener('keydown',function(e){
-    if(e.key==='Enter')btn.click();
-  });
-})();
 </script>
 <audio id="bgm" loop preload="auto" src="https://teacher-day-2026-1482870451.cos-website.ap-guangzhou.myqcloud.com/bgm_v2.mp3"></audio>
 </body>
