@@ -383,6 +383,18 @@ document.addEventListener('touchstart',function(){
 document.addEventListener('touchend',function(){clearTimeout(pressTimer)});
 document.addEventListener('touchmove',function(){clearTimeout(pressTimer)});
 </script>
-
+<audio id="bgm" loop preload="auto" src="bgm.mp3"></audio>
+<script>
+var bgmPlayed=false;
+var bgm=document.getElementById('bgm');
+function tryPlayBgm(){
+  if(bgmPlayed||!bgm)return;
+  var p=bgm.play();
+  if(p&&p.then){p.then(function(){bgmPlayed=true;}).catch(function(){});}
+  else{bgmPlayed=true;}
+}
+document.addEventListener('touchstart',tryPlayBgm,{passive:true});
+document.addEventListener('click',tryPlayBgm);
+</script>
 </body>
 </html>
