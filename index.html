@@ -4,336 +4,364 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>教师节 · 致谢</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            min-height: 100vh;
-            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; display: flex; justify-content: center; align-items: center;
             font-family: "STKaiti","KaiTi","FangSong","PingFang SC","Microsoft YaHei",sans-serif;
-            background: #f7f0e9;
-            padding: 20px; position: relative; overflow-x: hidden;
+            background: #f7f0e9; padding: 20px; position: relative; overflow-x: hidden;
         }
         body::before {
-            content:''; position: fixed; top:-30%; right:-20%; width:80%; height:80%;
-            background: radial-gradient(circle, rgba(235,205,167,.3) 0%, transparent 70%);
-            pointer-events:none; z-index:0;
+            content: ''; position: fixed; top: -30%; right: -20%; width: 80%; height: 80%;
+            background: radial-gradient(circle, rgba(235,205,167,0.3) 0%, transparent 70%);
+            pointer-events: none; z-index: 0;
         }
         body::after {
-            content:''; position: fixed; bottom:-20%; left:-20%; width:70%; height:70%;
-            background: radial-gradient(circle, rgba(200,170,140,.2) 0%, transparent 70%);
-            pointer-events:none; z-index:0;
+            content: ''; position: fixed; bottom: -20%; left: -20%; width: 70%; height: 70%;
+            background: radial-gradient(circle, rgba(200,170,140,0.2) 0%, transparent 70%);
+            pointer-events: none; z-index: 0;
         }
         .card {
-            position:relative; z-index:10; max-width:460px; width:100%;
-            background: rgba(255,252,248,.85);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-radius: 48px; padding: 48px 32px 40px;
-            box-shadow: 0 20px 60px rgba(120,80,50,.12), 0 8px 24px rgba(120,80,50,.06);
-            border: 1px solid rgba(255,255,255,.6);
+            position: relative; z-index: 10; max-width: 460px; width: 100%;
+            background: rgba(255,252,248,0.85); backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px); border-radius: 48px;
+            padding: 48px 32px 40px;
+            box-shadow: 0 20px 60px rgba(120,80,50,0.12), 0 8px 24px rgba(120,80,50,0.06);
+            border: 1px solid rgba(255,255,255,0.6);
         }
         .meta-badge {
-            display:inline-block; font-size:12px; letter-spacing:5px; color:#b5651d; font-weight:bold;
-            background: rgba(201,168,124,.12); padding: 8px 20px; border-radius:60px;
-            margin-bottom: 24px; border:1px solid rgba(201,168,124,.25);
+            display: inline-block; font-size: 12px; letter-spacing: 5px; color: #b5651d; font-weight: bold;
+            background: rgba(201,168,124,0.12); padding: 8px 20px; border-radius: 60px;
+            margin-bottom: 24px; border: 1px solid rgba(201,168,124,0.25);
         }
         .main-title {
-            font-size:42px; font-weight:700; color:#7a3e1a;
-            letter-spacing:2px; line-height:1.2; margin-bottom:6px; text-align:center;
+            font-size: 42px; font-weight: 700; color: #7a3e1a; letter-spacing: 2px; line-height: 1.2;
+            margin-bottom: 6px; text-align: center;
         }
         .sub-title {
-            font-size:16px; color:#b5651d; letter-spacing:8px;
-            margin-bottom:28px; text-align:center;
-            border-bottom:1px solid rgba(200,180,165,.2); padding-bottom:24px;
+            font-size: 15px; color: #b5651d; letter-spacing: 8px;
+            margin-bottom: 28px; text-align: center;
+            border-bottom: 1px solid rgba(200,180,165,0.2); padding-bottom: 24px;
         }
-        .carousel { text-align:center; padding:12px 0; margin-bottom:16px; min-height:40px;
-            display:flex; align-items:center; justify-content:center; }
-        .carousel p { font-size:20px; color:#7a5d42; letter-spacing:2px; transition:opacity .6s ease; }
+        .carousel { text-align: center; padding: 12px 0; margin-bottom: 16px; min-height: 40px; }
+        .carousel p { font-size: 20px; color: #7a5d42; letter-spacing: 2px; transition: opacity 0.6s ease; }
         .surprise-btn {
-            width:100%; padding:16px 0; background:transparent;
-            border:1.5px solid #dccfc4; border-radius:60px;
-            font-size:16px; color:#7a5d42; letter-spacing:4px; cursor:pointer;
-            font-family:inherit; margin-bottom:20px;
+            width: 100%; padding: 16px 0; background: transparent; border: 1.5px solid #dccfc4;
+            border-radius: 60px; font-size: 16px; color: #7a5d42; letter-spacing: 4px;
+            cursor: pointer; font-family: inherit; margin-bottom: 20px;
         }
-        .surprise-btn:active { transform:scale(.97); background:rgba(200,180,165,.15); }
+        .surprise-btn:active { transform: scale(0.97); background: rgba(200,180,165,0.15); }
         .footer-meta {
-            text-align:center; font-size:13px; color:#b8a088; letter-spacing:2px;
-            line-height:2; margin-bottom:8px;
+            text-align: center; font-size: 13px; color: #b8a088; letter-spacing: 2px; line-height: 2;
+            margin-bottom: 8px;
         }
-        .footer-meta strong { font-weight:600; color:#8a7058; }
-        .interact-section { margin-top:28px; padding-top:24px; border-top:1px solid rgba(200,180,165,.15); }
+        .footer-meta strong { font-weight: 600; color: #8a7058; }
+        .interact-section { margin-top: 28px; padding-top: 24px; border-top: 1px solid rgba(200,180,165,0.15); }
+        .interact-section:first-of-type { border-top: none; margin-top: 16px; padding-top: 0; }
         .section-label {
-            font-size:13px; color:#b09880; letter-spacing:3px;
-            margin-bottom:16px; display:block; text-align:center;
+            font-size: 13px; color: #b09880; letter-spacing: 3px;
+            margin-bottom: 16px; display: block; text-align: center;
         }
-        .sign-row { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
-        .sign-input {
-            flex:1 1 160px; min-width:130px; padding:12px 18px; border-radius:60px;
-            border:1px solid #e6dbd2; background:rgba(255,252,248,.6);
-            font-size:14px; font-family:inherit; color:#3d2b1a; outline:none;
+        .sign-row, .reply-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .sign-input, .reply-input {
+            flex: 1 1 160px; min-width: 130px; padding: 12px 18px; border-radius: 60px;
+            border: 1px solid #e6dbd2; background: rgba(255,252,248,0.6); font-size: 14px;
+            font-family: inherit; color: #3d2b1a; outline: none;
         }
-        .sign-input:focus { border-color:#c9a87c; box-shadow:0 0 0 3px rgba(201,168,124,.1); }
-        .sign-input::placeholder { color:#c4b4a6; }
+        .sign-input:focus, .reply-input:focus {
+            border-color: #c9a87c; box-shadow: 0 0 0 3px rgba(201,168,124,0.1);
+        }
+        .sign-input::placeholder, .reply-input::placeholder { color: #c4b4a6; }
         .btn-gold {
-            padding:12px 28px; border-radius:60px; border:none;
-            background:#c9b8a8; color:#fff; font-size:14px; letter-spacing:2px;
-            cursor:pointer; font-family:inherit;
-            box-shadow:0 4px 16px rgba(180,155,135,.2);
+            padding: 12px 28px; border-radius: 60px; border: none; background: #c9b8a8;
+            color: #fff; font-size: 14px; letter-spacing: 2px; cursor: pointer;
+            font-family: inherit; box-shadow: 0 4px 16px rgba(180,155,135,0.2);
         }
-        .btn-gold:active { transform:scale(.94); }
-        .sign-feedback { margin-top:10px; font-size:14px; color:#8a7058; min-height:22px; text-align:center; letter-spacing:1px; }
-        .star-list { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-top:12px; min-height:28px; }
-        .star-item {
-            font-size:13px; color:#8a7058; background:rgba(201,168,124,.08);
-            padding:4px 16px; border-radius:60px; border:1px solid rgba(201,168,124,.1);
-            letter-spacing:1px; animation:softPop .4s cubic-bezier(.34,1.56,.64,1);
-        }
-        @keyframes softPop { 0%{opacity:0;transform:scale(.6) translateY(10px)} 100%{opacity:1;transform:scale(1) translateY(0)} }
-        .award-grid { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-bottom:6px; }
-        .award-chip {
-            padding:8px 18px; border-radius:60px; border:1px solid #e6dbd2;
-            background:rgba(255,252,248,.4); font-size:13px; color:#7a5d42;
-            font-family:inherit; cursor:pointer; letter-spacing:1px;
-        }
-        .award-chip:active { transform:scale(.92); background:rgba(201,168,124,.1); border-color:#c9a87c; }
-        .award-display { text-align:center; margin-top:14px; font-size:19px; font-weight:600; color:#5d3f2a; min-height:36px; letter-spacing:2px; }
-        .award-display.pop { animation:glowPulse .8s ease; }
-        @keyframes glowPulse { 0%{transform:scale(1)} 50%{transform:scale(1.04);color:#c9a87c} 100%{transform:scale(1)} }
-        .reply-row { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
-        .reply-input {
-            flex:1 1 180px; min-width:140px; padding:12px 18px; border-radius:60px;
-            border:1px solid #e6dbd2; background:rgba(255,252,248,.6);
-            font-size:14px; font-family:inherit; color:#3d2b1a; outline:none;
-        }
-        .reply-input:focus { border-color:#c9a87c; }
-        .reply-input::placeholder { color:#c4b4a6; }
+        .btn-gold:active { transform: scale(0.94); }
         .btn-ink {
-            padding:12px 28px; border-radius:60px; border:1px solid #dccfc4;
-            background:transparent; color:#7a5d42; font-size:14px; letter-spacing:2px;
-            cursor:pointer; font-family:inherit;
+            padding: 12px 28px; border-radius: 60px; border: 1px solid #dccfc4; background: transparent;
+            color: #7a5d42; font-size: 14px; letter-spacing: 2px; cursor: pointer;
+            font-family: inherit;
         }
-        .btn-ink:active { transform:scale(.94); background:rgba(200,180,165,.08); }
+        .btn-ink:active { transform: scale(0.94); background: rgba(200,180,165,0.08); }
+        .sign-feedback {
+            margin-top: 10px; font-size: 14px; color: #8a7058; min-height: 22px;
+            text-align: center; letter-spacing: 1px;
+        }
+        .star-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 12px; min-height: 28px; }
+        .star-item {
+            font-size: 13px; color: #8a7058; background: rgba(201,168,124,0.08);
+            padding: 4px 16px; border-radius: 60px; border: 1px solid rgba(201,168,124,0.1);
+            animation: softPop 0.4s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        @keyframes softPop {
+            0% { opacity: 0; transform: scale(0.6) translateY(10px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .award-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 6px; }
+        .award-chip {
+            padding: 8px 18px; border-radius: 60px; border: 1px solid #e6dbd2;
+            background: rgba(255,252,248,0.4); font-size: 13px; color: #7a5d42;
+            font-family: inherit; cursor: pointer;
+        }
+        .award-chip:active { transform: scale(0.92); background: rgba(201,168,124,0.1); }
+        .award-display {
+            text-align: center; margin-top: 14px; font-size: 19px; font-weight: 600;
+            color: #5d3f2a; min-height: 36px; letter-spacing: 2px;
+        }
+        .award-display.pop { animation: glowPulse 0.8s ease; }
+        @keyframes glowPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.04); color: #c9a87c; }
+            100% { transform: scale(1); }
+        }
         .barrage-box {
-            margin-top:14px; padding:14px 20px; border-radius:20px;
-            background:rgba(245,240,235,.4); border:1px solid rgba(200,180,165,.1);
-            min-height:52px; display:flex; align-items:center; justify-content:center;
-            position:relative; overflow:hidden;
+            margin-top: 14px; padding: 14px 20px; border-radius: 20px;
+            background: rgba(245,240,235,0.4); border: 1px solid rgba(200,180,165,0.1);
+            min-height: 52px; display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
         }
         .barrage-box::before {
-            content:''; position:absolute; top:0; left:20px; right:20px; height:2px;
-            background:repeating-linear-gradient(90deg,#dccfc4 0,#dccfc4 4px,transparent 4px,transparent 8px);
-            opacity:.4;
+            content: ''; position: absolute; top: 0; left: 20px; right: 20px; height: 2px;
+            background: repeating-linear-gradient(90deg, #dccfc4 0px, #dccfc4 4px, transparent 4px, transparent 8px);
+            opacity: 0.4;
         }
         .barrage-text {
-            font-size:15px; color:#5d3f2a; letter-spacing:1px;
-            white-space:nowrap; max-width:100%;
+            font-size: 15px; color: #5d3f2a; letter-spacing: 1px;
+            white-space: nowrap; max-width: 100%;
         }
-        .barrage-text.animate { animation:slideMarquee 12s linear infinite; }
+        .barrage-text.animate { animation: slideMarquee 12s linear infinite; }
         @keyframes slideMarquee {
-            0%{transform:translateX(100%);opacity:0}
-            8%{opacity:1} 92%{opacity:1}
-            100%{transform:translateX(-100%);opacity:0}
+            0% { transform: translateX(100%); opacity: 0; }
+            8% { opacity: 1; } 92% { opacity: 1; }
+            100% { transform: translateX(-100%); opacity: 0; }
         }
-        @media (max-width:480px) {
-            .card { padding:32px 20px 28px; border-radius:32px; }
-            .main-title { font-size:32px; }
-            .sub-title { font-size:14px; letter-spacing:5px; padding-bottom:18px; }
-            .carousel p { font-size:17px; }
-            .award-display { font-size:16px; }
+        @media (max-width: 480px) {
+            .card { padding: 32px 20px 28px; }
+            .main-title { font-size: 32px; }
+            .sub-title { font-size: 13px; letter-spacing: 6px; padding-bottom: 18px; }
+            .carousel p { font-size: 17px; }
+            .award-display { font-size: 16px; }
         }
     </style>
 </head>
 <body>
-    <div class="card" id="mainCard">
-        <div style="text-align:center">
-            <span class="meta-badge">✦ 第 42 个 教 师 节 ✦</span>
+<div class="card" id="mainCard">
+    <div style="text-align: center;"><span class="meta-badge">✦ 第 42 个 教 师 节 ✦</span></div>
+    <h1 class="main-title">老师，节日快乐！</h1>
+    <div class="sub-title">提灯引路 · 育梦成光</div>
+    <div class="carousel"><p id="carouselText">🌸 感谢恩师！</p></div>
+    <button class="surprise-btn" id="surpriseBtn">✦ 点一下屏幕，有惊喜 ✦</button>
+    <div class="footer-meta">
+        <strong>2026 年 9 月 10 日</strong><br>
+        信息与通信学院全体学子 敬上
+    </div>
+    <div class="interact-section">
+        <span class="section-label">👩‍🏫 留下您的足迹</span>
+        <div class="sign-row">
+            <input class="sign-input" id="teacherNameInput" type="text" placeholder="输入称呼（如：王老师）">
+            <button class="btn-gold" id="signBtn">签到</button>
         </div>
-        <h1 class="main-title">老师，节日快乐！</h1>
-        <div class="sub-title">提灯引路 · 育梦成光</div>
-        <div class="carousel">
-            <p id="carouselText">🌸 感谢恩师！</p>
+        <div class="sign-feedback" id="signMessage"></div>
+        <div class="star-list" id="teacherList"></div>
+    </div>
+    <div class="interact-section">
+        <span class="section-label">🏆 领取专属称号</span>
+        <div class="award-grid">
+            <button class="award-chip" data-title="最幽默风趣奖">😄 幽默大师</button>
+            <button class="award-chip" data-title="最温柔耐心奖">🌸 温柔灯塔</button>
+            <button class="award-chip" data-title="学识最渊博奖">📚 行走百科</button>
+            <button class="award-chip" data-title="最醍醐灌顶奖">💡 人生导师</button>
         </div>
-        <button class="surprise-btn" id="surpriseBtn">✦ 点一下屏幕，有惊喜 ✦</button>
-        <div class="footer-meta">
-            <strong>2026 年 9 月 10 日</strong><br>
-            信息与通信学院全体学子 敬上
+        <div class="award-display" id="awardDisplay"></div>
+    </div>
+    <div class="interact-section">
+        <span class="section-label">💬 给同学们的悄悄话</span>
+        <div class="reply-row">
+            <input class="reply-input" id="teacherReplyInput" type="text" placeholder="输入您想说的话...">
+            <button class="btn-ink" id="replyBtn">发送弹幕</button>
         </div>
-
-        <div class="interact-section">
-            <span class="section-label">👩‍🏫 留下您的足迹</span>
-            <div class="sign-row">
-                <input class="sign-input" id="teacherNameInput" type="text" placeholder="输入称呼（如：王老师）">
-                <button class="btn-gold" id="signBtn">签到</button>
-            </div>
-            <div class="sign-feedback" id="signMessage"></div>
-            <div class="star-list" id="teacherList"></div>
-        </div>
-
-        <div class="interact-section">
-            <span class="section-label">🏆 领取专属称号</span>
-            <div class="award-grid">
-                <button class="award-chip" data-title="最幽默风趣奖">😄 幽默大师</button>
-                <button class="award-chip" data-title="最温柔耐心奖">🌸 温柔灯塔</button>
-                <button class="award-chip" data-title="学识最渊博奖">📚 行走百科</button>
-                <button class="award-chip" data-title="最醍醐灌顶奖">💡 人生导师</button>
-            </div>
-            <div class="award-display" id="awardDisplay"></div>
-        </div>
-
-        <div class="interact-section">
-            <span class="section-label">💬 给同学们的悄悄话</span>
-            <div class="sign-row">
-                <input class="reply-input" id="teacherReplyInput" type="text" placeholder="输入您想说的话...">
-                <button class="btn-ink" id="replyBtn">发送弹幕</button>
-            </div>
-            <div class="barrage-box">
-                <span class="barrage-text" id="barrageText">❤️ 等待老师的留言</span>
-            </div>
+        <div class="barrage-box">
+            <span class="barrage-text" id="barrageText">❤️ 等待老师的留言</span>
         </div>
     </div>
+</div>
+<audio id="bgm" loop preload="auto" src="https://teacher-day-2026-1482870451.cos-website.ap-guangzhou.myqcloud.com/bgm.mp3"></audio>
+<script>
+    const SUPABASE_URL = 'https://wwkahjgatheebewdv.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind3a2FoamdhdGhlZWJld2R2eWd6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg5MzA3NjAsImV4cCI6MjEwNDUwNjc2MH0.BE018lspGcw18GfNXBAh6CGwRVIa0kO9TCbD5BgMnW4';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    <audio id="bgm" loop preload="auto" src="https://teacher-day-2026-1482870451.cos-website.ap-guangzhou.myqcloud.com/bgm.mp3"></audio>
-    <script>
-        // 轮播
-        const quotes=["🌸 感谢恩师！","📖 桃李满天下！","✨ 师恩永难忘！","🌻 您辛苦了！","💖 我们爱您！"];
-        let qi=0; const cp=document.getElementById('carouselText');
-        setInterval(()=>{
-            qi=(qi+1)%quotes.length;
-            cp.style.opacity='0';
-            setTimeout(()=>{cp.textContent=quotes[qi];cp.style.opacity='1';},300);
-        },2800);
-        // 飘落
-        const fallWords=['✨','🌸','🍃','📖','💫','🍎'];
-        function startFall(){
-            const el=document.createElement('div');
-            el.textContent=fallWords[Math.floor(Math.random()*fallWords.length)];
-            const size=16+Math.random()*24;
-            el.style.cssText=`position:fixed;left:${Math.random()*90}vw;top:-30px;font-size:${size}px;pointer-events:none;z-index:999;opacity:.5;color:#c9a87c;`;
-            document.body.appendChild(el);
-            const dur=5000+Math.random()*5000, drift=(Math.random()-.5)*180;
-            el.animate([
-                {transform:'translateY(0) translateX(0) rotate(0deg)',opacity:.6},
-                {transform:`translateY(${window.innerHeight+80}px) translateX(${drift}px) rotate(${Math.random()*360-180}deg)`,opacity:.1}
-            ],{duration:dur,easing:'ease-in'}).onfinish=()=>el.remove();
+    const quotes = ["🌸 感谢恩师！","📖 桃李满天下！","✨ 师恩永难忘！","🌻 您辛苦了！","💖 我们爱您！"];
+    let qi = 0;
+    const cp = document.getElementById('carouselText');
+    setInterval(() => {
+        qi = (qi + 1) % quotes.length;
+        cp.style.opacity = '0';
+        setTimeout(() => { cp.innerHTML = quotes[qi]; cp.style.opacity = '1'; }, 300);
+    }, 2800);
+
+    const fallWords = ['✨','🌸','🍃','📖','💫','🍎'];
+    function startFall() {
+        const el = document.createElement('div');
+        el.textContent = fallWords[Math.floor(Math.random() * fallWords.length)];
+        const size = 16 + Math.random() * 24;
+        el.style.cssText = `position: fixed; left: ${Math.random()*90}vw; top: -30px; font-size: ${size}px; pointer-events: none; z-index: 999; opacity: 0.5; color: #c9a87c;`;
+        document.body.appendChild(el);
+        const dur = 5000 + Math.random() * 5000;
+        const drift = (Math.random() - 0.5) * 180;
+        el.animate([
+            { transform: `translateY(0) translateX(0) rotate(0deg)`, opacity: 0.6 },
+            { transform: `translateY(${window.innerHeight+80}px) translateX(${drift}px) rotate(${Math.random()*360-180}deg)`, opacity: 0.1 }
+        ], { duration: dur, easing: 'ease-in' }).onfinish = () => el.remove();
+    }
+    setInterval(startFall, 700);
+    function startRise() {
+        const el = document.createElement('div');
+        el.textContent = ['❤️','🌸','💛','🌷','💖'][Math.floor(Math.random() * 5)];
+        const size = 18 + Math.random() * 22;
+        el.style.cssText = `position:fixed; left:${Math.random()*90}vw; bottom:-30px; font-size:${size}px; pointer-events:none; z-index:999; opacity:0.5;`;
+        document.body.appendChild(el);
+        const dur = 4000 + Math.random() * 3000;
+        const drift = (Math.random() - 0.5) * 200;
+        el.animate([
+            { transform: `translateY(0) translateX(0) scale(0.6)`, opacity: 0.7 },
+            { transform: `translateY(-${window.innerHeight+120}px) translateX(${drift}px) scale(1)`, opacity: 0 }
+        ], { duration: dur, easing: 'cubic-bezier(0.2,0.8,0.3,1)' }).onfinish = () => el.remove();
+    }
+    setInterval(startRise, 500);
+    function fire(count = 50) {
+        const palette = ['#c9a87c','#dccfc4','#b8a088','#e6dbd2','#f0e8e0','#a8845c'];
+        for (let i = 0; i < count; i++) {
+            const dot = document.createElement('div');
+            const angle = Math.random() * 2 * Math.PI;
+            const radius = 80 + Math.random() * 220;
+            const size = 4 + Math.random() * 8;
+            const col = palette[Math.floor(Math.random() * palette.length)];
+            const cx = window.innerWidth / 2 + (Math.random() - 0.5) * 80;
+            const cy = window.innerHeight / 2 + (Math.random() - 0.5) * 80;
+            dot.style.cssText = `position:fixed; left:${cx}px; top:${cy}px; width:${size}px; height:${size}px; border-radius:50%; background:${col}; pointer-events:none; z-index:9999; opacity:0.9;`;
+            document.body.appendChild(dot);
+            const dx = Math.cos(angle) * radius;
+            const dy = Math.sin(angle) * radius - 100;
+            dot.animate([
+                { transform: 'translate(0,0) scale(1)', opacity: 0.9 },
+                { transform: `translate(${dx}px,${dy}px) scale(0)`, opacity: 0 }
+            ], { duration: 700 + Math.random() * 500, easing: 'ease-out' }).onfinish = () => dot.remove();
         }
-        setInterval(startFall,700);
-        // 爱心上升
-        function startRise(){
-            const el=document.createElement('div');
-            el.textContent=['❤️','🌸','💛','🌷','💖'][Math.floor(Math.random()*5)];
-            const size=18+Math.random()*22;
-            el.style.cssText=`position:fixed;left:${Math.random()*90}vw;bottom:-30px;font-size:${size}px;pointer-events:none;z-index:999;opacity:.5;`;
-            document.body.appendChild(el);
-            const dur=4000+Math.random()*3000, drift=(Math.random()-.5)*200;
-            el.animate([
-                {transform:'translateY(0) translateX(0) scale(.6)',opacity:.7},
-                {transform:`translateY(-${window.innerHeight+120}px) translateX(${drift}px) scale(1)`,opacity:0}
-            ],{duration:dur,easing:'cubic-bezier(.2,.8,.3,1)'}).onfinish=()=>el.remove();
+    }
+    document.getElementById('mainCard').addEventListener('click', function(e) {
+        if (e.target.closest('button') || e.target.closest('input')) return;
+        fire(30);
+        for (let i = 0; i < 5; i++) setTimeout(startRise, i * 100);
+        const bgm = document.getElementById('bgm');
+        if (bgm && bgm.paused) bgm.play().catch(() => {});
+    });
+    document.getElementById('surpriseBtn').addEventListener('click', function(e) {
+        e.stopPropagation();
+        for (let i = 0; i < 4; i++) setTimeout(() => fire(70), i * 240);
+        for (let i = 0; i < 10; i++) setTimeout(startRise, i * 80);
+    });
+    let lp;
+    const card = document.getElementById('mainCard');
+    card.addEventListener('mousedown', () => { lp = setTimeout(() => { for (let i=0; i<10; i++) setTimeout(startFall, i*80); }, 650); });
+    card.addEventListener('mouseup', () => clearTimeout(lp));
+    card.addEventListener('mouseleave', () => clearTimeout(lp));
+    card.addEventListener('touchstart', () => { lp = setTimeout(() => { for (let i=0; i<10; i++) setTimeout(startFall, i*80); }, 650); });
+    card.addEventListener('touchend', () => clearTimeout(lp));
+    card.addEventListener('touchmove', () => clearTimeout(lp));
+    document.addEventListener('click', () => { const b = document.getElementById('bgm'); if (b && b.paused) b.play().catch(()=>{}); }, { once: true });
+
+    // 云端签到
+    (function() {
+        const btn = document.getElementById('signBtn');
+        const inp = document.getElementById('teacherNameInput');
+        const msg = document.getElementById('signMessage');
+        const list = document.getElementById('teacherList');
+        async function loadSigns() {
+            const { data, error } = await supabase
+                .from('teacher_signs')
+                .select('name')
+                .order('created_at', { ascending: false })
+                .limit(100);
+            if (error) { msg.textContent = '⚠️ 签到列表加载失败'; return; }
+            list.innerHTML = data.map(row => `<span class="star-item">✦ ${row.name}</span>`).join('');
         }
-        setInterval(startRise,500);
-        // 烟花
-        function fire(count=50){
-            const palette=['#c9a87c','#dccfc4','#b8a088','#e6dbd2','#f0e8e0','#a8845c'];
-            for(let i=0;i<count;i++){
-                const dot=document.createElement('div');
-                const angle=Math.random()*2*Math.PI, radius=80+Math.random()*220;
-                const size=4+Math.random()*8;
-                const col=palette[Math.floor(Math.random()*palette.length)];
-                const cx=window.innerWidth/2+(Math.random()-.5)*80;
-                const cy=window.innerHeight/2+(Math.random()-.5)*80;
-                dot.style.cssText=`position:fixed;left:${cx}px;top:${cy}px;width:${size}px;height:${size}px;border-radius:50%;background:${col};pointer-events:none;z-index:9999;opacity:.9;`;
-                document.body.appendChild(dot);
-                const dx=Math.cos(angle)*radius, dy=Math.sin(angle)*radius-100;
-                dot.animate([
-                    {transform:'translate(0,0) scale(1)',opacity:.9},
-                    {transform:`translate(${dx}px,${dy}px) scale(0)`,opacity:0}
-                ],{duration:700+Math.random()*500,easing:'ease-out'}).onfinish=()=>dot.remove();
+        loadSigns();
+        btn.addEventListener('click', async function() {
+            const name = inp.value.trim();
+            if (!name) { msg.textContent = '💡 请输入称呼'; return; }
+            const { data: existing, error: queryError } = await supabase
+                .from('teacher_signs').select('name').eq('name', name).limit(1);
+            if (queryError) { msg.textContent = '⚠️ 网络异常，请稍后重试'; return; }
+            if (existing && existing.length > 0) {
+                msg.textContent = `❤️ ${name} 已签到`;
+                inp.value = '';
+                return;
+            }
+            const { error } = await supabase.from('teacher_signs').insert([{ name: name }]);
+            if (error) { msg.textContent = '⚠️ 存储失败，请稍后重试'; return; }
+            msg.textContent = `🎉 ${name}，您的心意已珍藏（已同步）`;
+            inp.value = '';
+            loadSigns();
+            fire(20);
+            for (let i=0; i<6; i++) setTimeout(startFall, i*120);
+        });
+    })();
+
+    // 颁奖（本地）
+    (function() {
+        const display = document.getElementById('awardDisplay');
+        let saved = null;
+        try { saved = localStorage.getItem('teacher_award'); } catch(e) {}
+        if (saved) display.textContent = `🏅 您已获得「${saved}」`;
+        document.querySelectorAll('.award-chip').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const title = this.getAttribute('data-title');
+                display.textContent = `🎊 恭喜获得「${title}」`;
+                display.classList.remove('pop');
+                void display.offsetWidth;
+                display.classList.add('pop');
+                for (let i=0; i<5; i++) setTimeout(() => fire(60), i*180);
+                if (navigator.vibrate) navigator.vibrate(20);
+                try { localStorage.setItem('teacher_award', title); } catch(e) {}
+            });
+        });
+    })();
+
+    // 云端留言
+    (function() {
+        const btn = document.getElementById('replyBtn');
+        const inp = document.getElementById('teacherReplyInput');
+        const txt = document.getElementById('barrageText');
+        async function loadLatest() {
+            const { data, error } = await supabase
+                .from('teacher_messages').select('content')
+                .order('created_at', { ascending: false }).limit(1);
+            if (error) return;
+            if (data && data.length > 0) {
+                txt.textContent = `「${data[0].content}」 —— 来自老师 ❤️`;
+                txt.classList.add('animate');
             }
         }
-        document.getElementById('mainCard').addEventListener('click',function(e){
-            if(e.target.closest('button')||e.target.closest('input'))return;
-            fire(30);
-            for(let i=0;i<5;i++)setTimeout(startRise,i*100);
-            const bgm=document.getElementById('bgm');
-            if(bgm&&bgm.paused)bgm.play().catch(()=>{});
-        });
-        document.getElementById('surpriseBtn').addEventListener('click',function(e){
+        loadLatest();
+        btn.addEventListener('click', async function(e) {
             e.stopPropagation();
-            for(let i=0;i<4;i++)setTimeout(()=>fire(70),i*240);
-            for(let i=0;i<10;i++)setTimeout(startRise,i*80);
+            const val = inp.value.trim();
+            if (!val) return;
+            const { error } = await supabase.from('teacher_messages').insert([{ content: val }]);
+            if (error) { alert('留言发送失败，请稍后重试'); return; }
+            txt.textContent = `「${val}」 —— 来自老师 ❤️`;
+            txt.classList.remove('animate');
+            void txt.offsetWidth;
+            txt.classList.add('animate');
+            inp.value = '';
+            for (let i=0; i<8; i++) setTimeout(startFall, i*100);
         });
-        // 长按
-        let lp; const card=document.getElementById('mainCard');
-        function lpStart(){lp=setTimeout(()=>{for(let i=0;i<10;i++)setTimeout(startFall,i*80);},650);}
-        function lpEnd(){clearTimeout(lp);}
-        card.addEventListener('mousedown',lpStart);
-        card.addEventListener('mouseup',lpEnd);
-        card.addEventListener('mouseleave',lpEnd);
-        card.addEventListener('touchstart',lpStart);
-        card.addEventListener('touchend',lpEnd);
-        card.addEventListener('touchmove',lpEnd);
-        document.addEventListener('click',()=>{
-            const b=document.getElementById('bgm');
-            if(b&&b.paused)b.play().catch(()=>{});
-        },{once:true});
-
-        // 签到
-        (function(){
-            const btn=document.getElementById('signBtn'),inp=document.getElementById('teacherNameInput'),
-                  msg=document.getElementById('signMessage'),list=document.getElementById('teacherList');
-            let data=[];
-            try{data=JSON.parse(localStorage.getItem('teachers_sign_list')||'[]');}catch(e){}
-            function render(){list.innerHTML=data.map(n=>'<span class="star-item">✦ '+n+'</span>').join('');}
-            render();
-            btn.addEventListener('click',function(){
-                const name=inp.value.trim();
-                if(!name){msg.textContent='💡 请输入称呼';return;}
-                if(data.indexOf(name)>=0){msg.textContent='❤️ '+name+' 已签到';inp.value='';return;}
-                data.push(name);
-                try{localStorage.setItem('teachers_sign_list',JSON.stringify(data));}catch(e){}
-                render();
-                msg.textContent='🎉 '+name+'，您的心意已珍藏';
-                inp.value='';
-                fire(20);
-                for(let i=0;i<6;i++)setTimeout(startFall,i*120);
-            });
-        })();
-        // 颁奖
-        (function(){
-            const display=document.getElementById('awardDisplay');
-            let saved=null;
-            try{saved=localStorage.getItem('teacher_award');}catch(e){}
-            if(saved)display.textContent='🏅 您已获得「'+saved+'」';
-            document.querySelectorAll('.award-chip').forEach(btn=>{
-                btn.addEventListener('click',function(e){
-                    e.stopPropagation();
-                    const title=this.getAttribute('data-title');
-                    display.textContent='🎊 恭喜获得「'+title+'」';
-                    display.classList.remove('pop');
-                    void display.offsetWidth;
-                    display.classList.add('pop');
-                    for(let i=0;i<5;i++)setTimeout(()=>fire(60),i*180);
-                    if(navigator.vibrate)navigator.vibrate(20);
-                    try{localStorage.setItem('teacher_award',title);}catch(err){}
-                });
-            });
-        })();
-        // 弹幕
-        (function(){
-            const btn=document.getElementById('replyBtn'),inp=document.getElementById('teacherReplyInput'),
-                  txt=document.getElementById('barrageText');
-            btn.addEventListener('click',function(e){
-                e.stopPropagation();
-                const val=inp.value.trim();
-                if(!val)return;
-                txt.textContent='「'+val+'」—— 来自老师 ❤️';
-                txt.classList.remove('animate');
-                void txt.offsetWidth;
-                txt.classList.add('animate');
-                inp.value='';
-                for(let i=0;i<8;i++)setTimeout(startFall,i*100);
-            });
-            inp.addEventListener('keydown',e=>{if(e.key==='Enter')btn.click();});
-        })();
-    </script>
+        inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') btn.click(); });
+    })();
+</script>
 </body>
 </html>
